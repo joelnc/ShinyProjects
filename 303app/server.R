@@ -6,7 +6,7 @@ source("metalsThresFuns.r")
 ## NEED TO
 ##    1) Fix the "if no data meeting criteria", in plotly context
 ##    2) Check for consistent units, flag plots where needed
-##    3) Return site name function
+##    3) Return site name function DONE
 ##    4) 2004 rect does not always behave as expected
 ##    xx5) hover text.  Done.
 ##    6) Make sure works with full WQD Export File
@@ -46,6 +46,7 @@ shinyServer(
                 ## Name data
                 x <- tsData$Coldate
                 y <- tsData$Result
+                grp <- tsData$Site
 
                 yAx <- list(
                     title=tsData$Aunit[1], titlefont=list(size=25),
@@ -55,8 +56,10 @@ shinyServer(
                 plot_ly() %>%
                     ## Plot data series
                     add_trace(
-                        x=~x, y=~y, type="scatter", mode="markers",
-                        marker = list(color="black", size = 4),
+                        x=~x, y=~y, symbol=~grp,
+                        type="scatter", mode="markers",
+                        ##marker = list(color="black", size = 4),
+                        symbols='circle',
                         name="Total") %>%
                     layout(
                         yaxis=yAx,
@@ -94,6 +97,7 @@ shinyServer(
                 xT <- tDiffData[["tData"]]["Coldate"]
                 yT <- tDiffData[["tData"]]["Result.x"]-
                     tDiffData[["tData"]]["aStan"]
+                grp <- tDiffData[["tData"]]["Site.x"]
 
                 plot_ly() %>%
                     ## Plot data series
@@ -120,7 +124,9 @@ shinyServer(
                     add_trace(
                         x=~xT$Coldate, y=~yT$Result.x,
                         type="scatter", mode="markers",
-                        marker = list(color="black", size=4),
+                        marker = list(size=4),
+                        symbol=~grp$Site,
+                        color=I('black'),
                         name="Total      ")
 
             ## Total and dissolved
@@ -139,18 +145,24 @@ shinyServer(
                 xD <- tDiffData[["dData"]]["Coldate"]
                 yD <- tDiffData[["dData"]]["Result.x"]-
                     tDiffData[["dData"]]["aStan"]
+                grpT <- tDiffData[["tData"]]["Site.x"]
+                grpD <- tDiffData[["dData"]]["Site.x"]
 
                 plot_ly() %>%
                     ## Plot data series
                     add_trace(
                         x=~xT$Coldate, y=~yT$Result.x,
+                        symbol=grpT$Site,
                         type="scatter", mode="markers",
-                        marker = list(color="black", size = 4),
+                        marker = list(size = 4),
+                        color=I('black'),
                         name="Total") %>%
                     add_trace(
                         x=~xD$Coldate, y=~yD$Result.x,
+                        symbol=grpD$Site,
                         type="scatter", mode="markers",
-                        marker = list(color="red", size = 6),
+                        marker = list(size = 6),
+                        color=I('red'),
                         name="Dissolved") %>%
                     layout(
                         yaxis=list(range=c(-yMax, yMax)),
