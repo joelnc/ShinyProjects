@@ -1,0 +1,183 @@
+
+R version 3.3.2 (2016-10-31) -- "Sincere Pumpkin Patch"
+Copyright (C) 2016 The R Foundation for Statistical Computing
+Platform: x86_64-w64-mingw32/x64 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> > options(chmhelp=FALSE, help_type="text")
+> options(STERM='iESS', str.dendrogram.last="'", editor='emacsclient.exe', show.error.locations=TRUE)
+> library(shiny)
+> library(plotly)
+Loading required package: ggplot2
+
+Attaching package: 'plotly'
+
+The following object is masked from 'package:ggplot2':
+
+    last_plot
+
+The following object is masked from 'package:stats':
+
+    filter
+
+The following object is masked from 'package:graphics':
+
+    layout
+
+> runApp('303app')
+
+Listening on http://127.0.0.1:7057
+  C-c C-c
+> runApp('303app')
+
+Listening on http://127.0.0.1:7057
+Error in parse(file, keep.source = FALSE, srcfile = src, encoding = enc) :
+  c:\Users\95218\Documents\R\ShinyProjects\303app/server.R:133:13: unexpected '}'
+132:             ## Total and dissolved
+133:             }
+                 ^
+Possible unmatched '}' at:
+133:            } else if (nrow(tDiffData[["tData"]])>0 &
+                ^
+Possible missing comma at:
+166:                        name="Dissolved") %>%
+                            ^
+Possible unmatched ')' at:
+183:        })
+             ^
+Possible unmatched '}' at:
+185:    }) ## Done
+        ^
+Possible unmatched ')' at:
+185:    }) ## Done
+         ^
+Warning: Error in sourceUTF8: Error sourcing C:\Users\95218\AppData\Local\Temp\RtmpsxYInQ\file192c5f5f1fb9
+Stack trace (innermost first):
+    1: runApp
+Error in sourceUTF8(serverR, envir = new.env(parent = globalenv())) :
+  Error sourcing C:\Users\95218\AppData\Local\Temp\RtmpsxYInQ\file192c5f5f1fb9
+  C-c C-c
+>
+> runApp('303app')
+
+Listening on http://127.0.0.1:7057
+Error in parse(file, keep.source = FALSE, srcfile = src, encoding = enc) :
+  c:\Users\95218\Documents\R\ShinyProjects\303app/server.R:166:25: unexpected symbol
+165:                         symbols='circle', color=I('red')
+166:                         name
+                             ^
+Possible missing comma at:
+166:                        name="Dissolved") %>%
+                            ^
+Warning: Error in sourceUTF8: Error sourcing C:\Users\95218\AppData\Local\Temp\RtmpsxYInQ\file192c395fb08
+Stack trace (innermost first):
+    1: runApp
+Error in sourceUTF8(serverR, envir = new.env(parent = globalenv())) :
+  Error sourcing C:\Users\95218\AppData\Local\Temp\RtmpsxYInQ\file192c395fb08
+  C-c C-c
+>
+> runApp('303app')
+
+Listening on http://127.0.0.1:7057
+  C-c C-c
+>
+> runApp('303app')
+
+Listening on http://127.0.0.1:7057
+  C-c C-c
+>
+> runApp('303app')
+
+Listening on http://127.0.0.1:7057
+Warning: Error in get: object 'NAFun' of mode 'function' was not found
+Stack trace (innermost first):
+    82: get
+    81: match.fun
+    80: returnDiffData [metalsFun.r#24]
+    79: ggplotly [c:\Users\95218\Documents\R\ShinyProjects\303app/server.R#74]
+    78: func
+    77: origRenderFunc
+    76: output$tDiffPlot
+     1: runApp
+  C-c C-c
+>
+> runApp('303app')
+
+Listening on http://127.0.0.1:7057
+head(wqDF)
+  C-c C-c
+>
+   Sampno Element    Coldate Site BMPParentID  Analyte Qualifier Result Aunit
+988         ICS1.1 1986-11-04 MC38          NA  Cadmium         <      1  ug/L
+990         ICS1.1 1986-11-04 MC38          NA   Silver         <      1  ug/L
+991         ICS1.1 1986-11-04 MC38          NA     Lead                1  ug/L
+993         ICS1.1 1986-11-04 MC38          NA Chromium                1  ug/L
+994         ICS1.1 1986-11-04 MC38          NA Selenium         <      1  ug/L
+998         ICS1.1 1986-11-07 MC51          NA   Silver         <      1  ug/L
+    MDL Type Storm CollectedBy Comments RecordID TransfDate SQL_ID QCDate
+988  NA         No                          2148                NA
+990  NA         No                          2167                NA
+991  NA         No                          2168                NA
+993  NA         No                          2180                NA
+994  NA         No                          2184                NA
+998  NA         No                          2236                NA
+    Locdescr Acode      DateApproved ApprovedBy MilesDup       Date
+988                8/13/2010 0:00:00 Jeff Price        0 1986-11-04
+990                8/13/2010 0:00:00 Jeff Price        0 1986-11-04
+991                8/13/2010 0:00:00 Jeff Price        0 1986-11-04
+993                8/13/2010 0:00:00 Jeff Price        0 1986-11-04
+994                8/13/2010 0:00:00 Jeff Price        0 1986-11-04
+998                8/13/2010 0:00:00 Jeff Price        0 1986-11-07
+> summary(wqDF$MDL)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's
+  0.010   2.000   5.000   5.252   5.000  30.000     740
+> mode(wqDF$MDL)
+[1] "numeric"
+> Mode <- function(x) {
+  ux <- unique(x)
+  ux[which.max(tabulate(match(x, ux)))]
+}
+Mode <- function(x) {
++   ux <- unique(x)
++   ux[which.max(tabulate(match(x, ux)))]
++ }
+> Mode(wqDF$MDL)
+[1] 5
+> runApp('303app')
+
+Listening on http://127.0.0.1:7057
+  C-c C-c
+>
+> runApp('303app')
+
+Listening on http://127.0.0.1:7057
+  C-c C-c
+>
+> 
+> 
+> runApp('app3')
+
+Listening on http://127.0.0.1:7057
+  C-c C-c
+> 
+> runApp('303metals')
+
+Listening on http://127.0.0.1:7057
+  C-c C-c
+> 
+> runApp('303metals')
+
+Listening on http://127.0.0.1:7057
+  C-c C-c
+> 
