@@ -17,6 +17,7 @@ source("metalsThresFuns.r")
 shinyServer(
     function(input, output) {
 
+        ## Make a blank axis to pass in the 'No Data' case
         ax <- list(
             title = "", zeroline = FALSE,
             showline = FALSE, showticklabels = FALSE,
@@ -41,7 +42,6 @@ shinyServer(
                             text="No Data Meeting Selection Criteria",
                             showarrow=FALSE, font=list(size=25))
                     )
-
             } else {
                 ## Name data
                 x <- tsData$Coldate
@@ -69,6 +69,7 @@ shinyServer(
             }
         })
 
+
         ## TDiff Plot
         output$tDiffPlot <- renderPlotly({
             tDiffData <- returnDiffData(site=input$sitecode,
@@ -88,19 +89,18 @@ shinyServer(
 
             ## Total Metals only
             } else if (nrow(tDiffData[["dData"]])==0) {
-                ##browser()
                 yMax <-
                     1.2*max(abs(tDiffData[["tData"]]["Result.x"]-
                     tDiffData[["tData"]]["aStan"]))
 
-                ## Name data
+                ## Pull x, y and grouping info from returned subset of data
                 xT <- tDiffData[["tData"]]["Coldate"]
                 yT <- tDiffData[["tData"]]["Result.x"]-
                     tDiffData[["tData"]]["aStan"]
                 grp <- tDiffData[["tData"]]["Site.x"]
 
+                ## Plot total metals data
                 plot_ly() %>%
-                    ## Plot data series
                     layout(
                        yaxis = list(
                            range = c(-yMax, yMax),
@@ -138,7 +138,8 @@ shinyServer(
                         abs(tDiffData[["dData"]]["Result.x"]-
                         tDiffData[["dData"]]["aStan"]))
 
-                ## Name data
+                ## Pull x, y and grouping info from returned subset of data
+                ##   for both total and dissolved metals data
                 xT <- tDiffData[["tData"]]["Coldate"]
                 yT <- tDiffData[["tData"]]["Result.x"]-
                     tDiffData[["tData"]]["aStan"]
