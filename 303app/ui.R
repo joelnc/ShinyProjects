@@ -29,13 +29,17 @@ shinyUI(
                        selectInput(
                            inputId= "sitecode",
                            label="Choose Site: ",
-                           unique(wqDF$Site))
+                           unique(wqDF$Site),
+                           multiple=TRUE,
+                           selectize=TRUE,
+                           selected="MC22A")
                        ),
                 column(3,
                        selectInput(
                            inputId="analyte",
                            label="Choose: ",
-                           unique(wqDF$Analyte))
+                           unique(wqDF$Analyte)
+                           )
                        )
                ),
             mainPanel(
