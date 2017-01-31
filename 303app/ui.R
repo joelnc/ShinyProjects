@@ -1,21 +1,21 @@
 library(shiny)
 source("metalsFun.r")
 
+## Load and Read Text File if needed
 f <- "wqdTestingText.dat"
 con <- file(f, open="r")
 t <- readLines(con)
 t <- t[which(t!="")]
 close(con)
 
-## Load WQD File
-wqDF <-
-    read.csv("LabReport.txt",
-                 stringsAsFactors=FALSE,
-                 sep=",", header=TRUE)
+## Load, format, subset, WQD File
+wqDF <- read.csv("LabReport.txt",
+                 stringsAsFactors=FALSE, sep=",", header=TRUE)
 wqDF$Coldate <- as.POSIXct(wqDF$Coldate, format="%m/%d/%Y %H:%M:%S")
-wqDF$Date <- as.Date(wqDF$Coldate)
-wqDF <- wqDF[which(wqDF$Analyte %in% c("Cadmium", "Lead", "Zinc",
-                                       "Copper")), ]
+##wqDF$Date <- as.Date(wqDF$Coldate)  ## If needed
+wqDF <- wqDF[which(wqDF$Analyte %in%
+                   c("Copper", "Lead", "Zinc", "Cadmium", "Chromium",
+                     "Beryllium", "Selenium", "Arscenic", "Silver")), ]
 wqDF <<- wqDF[order(wqDF$Coldate), ]
 
 ## Define UI for applicaiton that draws a hist
@@ -24,8 +24,7 @@ shinyUI(
         ## Application title
         h1("Other Demo", align="center"),
         br(), p(t[1]),
-##        browser(),
-        sidebarLayout(
+        sidebarLayout(fluid=TRUE,
             sidebarPanel(
                 selectInput(
                     inputId= "sitecode",
