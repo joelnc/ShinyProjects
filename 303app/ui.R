@@ -7,7 +7,8 @@ t <- t[which(t!="")]
 close(con)
 
 ## Load WQD File
-wqDF <- read.csv("c:/users/95218/documents/r/shinystuff/LabReport.txt",
+wqDF <-
+    read.csv("c:/users/joel/documents/r/shinyprojects/303app/LabReport.txt",
                  stringsAsFactors=FALSE,
                  sep=",", header=TRUE)
 wqDF$Coldate <- as.POSIXct(wqDF$Coldate, format="%m/%d/%Y %H:%M:%S")
@@ -39,15 +40,23 @@ shinyUI(
                ),
             mainPanel(
                 tabsetPanel(type="tabs",
-                            tabPanel("Interactive Plot", br(),
-                                     h3("Time Series Plot of Selected Data"),
-                                     plotlyOutput("tsPlot",
-                                                  height="450px"),
-                                     br()),
-                            tabPanel("DiffPlot", br(),
-                                     plotlyOutput("tDiffPlot",
-                                                  height="300px")
-                                     )
+                            tabPanel("Interactive Plot",
+                                     fluidRow(
+                                         column(12, h3("TS Plot of Data"),
+                                                plotlyOutput("tsPlot")
+                                                )
+                                         ),
+                                     fluidRow(
+                                         column(12,
+                                                plotlyOutput("tDiffPlot"),
+                                                height="350px"
+                                                )
+                                         )
+                                      )#,
+                            ## tabPanel("DiffPlot", br(),
+                            ##          plotlyOutput("tsPlot",
+                            ##                       height="300px")
+                            ##          )
                             )
                 )
             )

@@ -1,7 +1,7 @@
 library(shiny)
 library(plotly)
-source("c:/users/95218/documents/r/shinystuff/303app/metalsFun.r")
-source("c:/users/95218/documents/r/metals/metalsThresFuns.r")
+source("c:/users/joel/documents/r/shinyprojects/303app/metalsFun.r")
+source("c:/users/joel/documents/r/shinyprojects/metalsThresFuns.r")
 
 ## NEED TO
 ##    1) Fix the "if no data meeting criteria", in plotly context
@@ -55,8 +55,8 @@ shinyServer(
                     ## Plot data series
                     add_trace(
                         x=~x, y=~y, type="scatter", mode="markers",
-                        marker = list(color="black", size = 4)
-                    ) %>%
+                        marker = list(color="black", size = 4),
+                        name="Total") %>%
                     layout(
                         yaxis=yAx,
                         margin=list(l=90, r=60, b=80, t=150, pad=0),
@@ -113,13 +113,14 @@ shinyServer(
                                 opacity = .20, type = "rect",
                                 x0 = "2010-01-01", x1 = "2017-02-01",
                                 xref = "x", y0 = 0, y1 = yMax, yref = "y")
-                        )
+                        ),
+                        showlegend=TRUE
                     ) %>%
                     add_trace(
                         x=~xT$Coldate, y=~yT$Result.x,
                         type="scatter", mode="markers",
                         marker = list(color="black", size=4),
-                        name="Total")
+                        name="Total      ")
 
             ## Total and dissolved
             } else if (nrow(tDiffData[["tData"]])>0 &
