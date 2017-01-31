@@ -5,6 +5,7 @@ returnData <- function(site, metal){
                            wqDF$Analyte==metal &
                            wqDF$Element=="ICS1.1"), ]
     return(data)
+
 }
 
 returnDiffData <- function(site, metal) {
@@ -51,21 +52,3 @@ returnSiteName <- function(siteAbr) {
     }
 }
 
-## To have drop down menus include the descriptive name and site code...
-returnSiteGlob <- function(siteCodes) {
-    ## load the lookup DF
-    load("sitesLookup.Rdata")
-    ## Function to handle single sitecode/long name combo
-    nameDrop <- function(siteCode) {
-        tNames <- paste0(
-            sitesLookup$name[which(sitesLookup$code==siteCode)],
-            " (", siteCode,")")
-        return(tNames)
-    }
-    ## Apply function, wrangle into a sorted named char for
-    ## direct input to selectInput(choices=  )
-    makeNames <- sapply(siteCodes, nameDrop)
-    shouldWork <- setNames(siteCodes, makeNames)
-    shouldWorkNow <- unlist(shouldWork)
-    return(shouldWorkNow[order(names(shouldWorkNow))])
-}

@@ -1,4 +1,5 @@
 library(shiny)
+source("metalsFun.r")
 
 f <- "wqdTestingText.dat"
 con <- file(f, open="r")
@@ -23,12 +24,13 @@ shinyUI(
         ## Application title
         h1("Other Demo", align="center"),
         br(), p(t[1]),
+##        browser(),
         sidebarLayout(
             sidebarPanel(
                 selectInput(
                     inputId= "sitecode",
                     label="Choose Site: ",
-                    unique(wqDF$Site),
+                    choices=returnSiteGlob(unique(wqDF$Site)),
                     multiple=TRUE,
                     selectize=TRUE,
                     selected="MC22A"),
