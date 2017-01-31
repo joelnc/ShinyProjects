@@ -1,7 +1,7 @@
 library(shiny)
 library(plotly)
-source("c:/users/joel/documents/r/shinyprojects/303app/metalsFun.r")
-source("c:/users/joel/documents/r/shinyprojects/metalsThresFuns.r")
+source("metalsFun.r")
+source("metalsThresFuns.r")
 
 ## NEED TO
 ##    1) Fix the "if no data meeting criteria", in plotly context

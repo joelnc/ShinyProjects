@@ -12,10 +12,10 @@ returnDiffData <- function(site, metal) {
     ## Return a list with a dissolved and a total df
 
     ## Subset data
-    data <- wqDF[which(wqDF$Site==site &
+    data <- wqDF[which(wqDF$Site %in% site &
                        wqDF$Analyte==metal &
                        wqDF$Element=="ICS1.1"), ]
-    hd <- wqDF[which(wqDF$Site==site &
+    hd <- wqDF[which(wqDF$Site %in% site &
                        wqDF$Analyte=="Hardness" &
                        wqDF$Element=="ICS1.1"), ]
 
