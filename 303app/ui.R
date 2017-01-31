@@ -1,4 +1,5 @@
 library(shiny)
+source("metalsFun.r")
 
 f <- "wqdTestingText.dat"
 con <- file(f, open="r")
@@ -8,7 +9,7 @@ close(con)
 
 ## Load WQD File
 wqDF <-
-    read.csv("c:/users/joel/documents/r/shinyprojects/303app/LabReport.txt",
+    read.csv("LabReport.txt",
                  stringsAsFactors=FALSE,
                  sep=",", header=TRUE)
 wqDF$Coldate <- as.POSIXct(wqDF$Coldate, format="%m/%d/%Y %H:%M:%S")
@@ -23,25 +24,22 @@ shinyUI(
         ## Application title
         h1("Other Demo", align="center"),
         br(), p(t[1]),
+##        browser(),
         sidebarLayout(
-            fluidRow(
-                column(3,
-                       selectInput(
-                           inputId= "sitecode",
-                           label="Choose Site: ",
-                           unique(wqDF$Site),
-                           multiple=TRUE,
-                           selectize=TRUE,
-                           selected="MC22A")
-                       ),
-                column(3,
-                       selectInput(
-                           inputId="analyte",
-                           label="Choose: ",
-                           unique(wqDF$Analyte)
-                           )
-                       )
-               ),
+            sidebarPanel(
+                selectInput(
+                    inputId= "sitecode",
+                    label="Choose Site: ",
+                    choices=returnSiteGlob(unique(wqDF$Site)),
+                    multiple=TRUE,
+                    selectize=TRUE,
+                    selected="MC22A"),
+                selectInput(
+                    inputId="analyte",
+                    label="Choose: ",
+                    unique(wqDF$Analyte)
+                )
+            ),
             mainPanel(
                 tabsetPanel(type="tabs",
                             tabPanel("Interactive Plot",

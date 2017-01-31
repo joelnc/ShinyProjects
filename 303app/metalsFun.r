@@ -5,17 +5,16 @@ returnData <- function(site, metal){
                            wqDF$Analyte==metal &
                            wqDF$Element=="ICS1.1"), ]
     return(data)
-
 }
 
 returnDiffData <- function(site, metal) {
     ## Return a list with a dissolved and a total df
 
     ## Subset data
-    data <- wqDF[which(wqDF$Site==site &
+    data <- wqDF[which(wqDF$Site %in% site &
                        wqDF$Analyte==metal &
                        wqDF$Element=="ICS1.1"), ]
-    hd <- wqDF[which(wqDF$Site==site &
+    hd <- wqDF[which(wqDF$Site %in% site &
                        wqDF$Analyte=="Hardness" &
                        wqDF$Element=="ICS1.1"), ]
 
@@ -41,20 +40,32 @@ returnDiffData <- function(site, metal) {
               metalHd$Coldate>as.POSIXct("2010-01-01 0:00"))
 
     return(list(tData=metalHd[FIMT, ], dData=metalHd[FIMD, ]))
-    ## plot_ly() %>%
-    ##     add_trace(data=metalHd[FIMT],
-    ##         x=~Coldate,
-    ##         y=~(Result.x-aStan)
-    ##         mode= "markers", type = "scatter",
-    ##         marker = list(color="black", size = 4),
-    ##         name="Total"
-    ##         ) %>%
-    ##     add_trace(data=metalHd[FIMD],
-    ##         x=~Coldate,
-    ##         y=~(Result.x-aStan)
-    ##         mode= "markers", type = "scatter",
-    ##         marker = list(color="red", size = 6),
-    ##         name="Dissolved") ##%>%
-        ##layout()
 }
 
+returnSiteName <- function(siteAbr) {
+    load("sitesLookup.Rdata")
+    if (length(sitesLookup$name[which(sitesLookup$code==siteAbr)])<1) {
+        return("Site Not on File")
+    } else {
+        return(sitesLookup$name[which(sitesLookup$code==siteAbr)])
+    }
+}
+
+## To have drop down menus include the descriptive name and site code...
+returnSiteGlob <- function(siteCodes) {
+    ## load the lookup DF
+    load("sitesLookup.Rdata")
+    ## Function to handle single sitecode/long name combo
+    nameDrop <- function(siteCode) {
+        tNames <- paste0(
+            sitesLookup$name[which(sitesLookup$code==siteCode)],
+            " (", siteCode,")")
+        return(tNames)
+    }
+    ## Apply function, wrangle into a sorted named char for
+    ## direct input to selectInput(choices=  )
+    makeNames <- sapply(siteCodes, nameDrop)
+    shouldWork <- setNames(siteCodes, makeNames)
+    shouldWorkNow <- unlist(shouldWork)
+    return(shouldWorkNow[order(names(shouldWorkNow))])
+}

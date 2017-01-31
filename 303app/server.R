@@ -1,7 +1,7 @@
 library(shiny)
 library(plotly)
-source("c:/users/joel/documents/r/shinyprojects/303app/metalsFun.r")
-source("c:/users/joel/documents/r/shinyprojects/metalsThresFuns.r")
+source("metalsFun.r")
+source("metalsThresFuns.r")
 
 ## NEED TO
 ##    1) Fix the "if no data meeting criteria", in plotly context
@@ -17,15 +17,15 @@ source("c:/users/joel/documents/r/shinyprojects/metalsThresFuns.r")
 shinyServer(
     function(input, output) {
 
-##        browser()
         ax <- list(
             title = "", zeroline = FALSE,
             showline = FALSE, showticklabels = FALSE,
             showgrid = FALSE
         )
-        ##str(input$sitecode)
+
         ## Reactive plot one of TS concentrations
         output$tsPlot <- renderPlotly({
+
             tsData <- returnData(site=input$sitecode,
                              metal=input$analyte)
 
