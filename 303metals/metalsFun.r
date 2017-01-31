@@ -1,9 +1,11 @@
 ## <- function(site, metal, dates1, dates2){
-returnData <- function(site, metal){
+returnData <- function(site, metal, dates){
     ## Create a list with a dissovled and a total metals
     data <- wqDF[which(wqDF$Site %in% site &
-                           wqDF$Analyte==metal &
-                           wqDF$Element=="ICS1.1"), ]
+                       wqDF$Analyte==metal &
+                       wqDF$Element=="ICS1.1" &
+                       wqDF$Date>=dates[1] &
+                       wqDF$Date<=dates[2]), ]
     return(data)
 }
 

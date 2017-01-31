@@ -28,8 +28,9 @@ shinyServer(
         output$tsPlot <- renderPlotly({
 
             tsData <- returnData(site=input$sitecode,
-                             metal=input$analyte)
-
+                                 metal=input$analyte,
+                                 dates=input$dates)
+##browser()
             if (nrow(tsData)==0) {
                 plot_ly() %>%
                     add_trace(

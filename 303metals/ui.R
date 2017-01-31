@@ -12,7 +12,7 @@ close(con)
 wqDF <- read.csv("LabReport.txt",
                  stringsAsFactors=FALSE, sep=",", header=TRUE)
 wqDF$Coldate <- as.POSIXct(wqDF$Coldate, format="%m/%d/%Y %H:%M:%S")
-##wqDF$Date <- as.Date(wqDF$Coldate)  ## If needed
+wqDF$Date <- as.Date(wqDF$Coldate)  ## If needed
 wqDF <- wqDF[which(wqDF$Analyte %in%
                    c("Copper", "Lead", "Zinc", "Cadmium", "Chromium",
                      "Beryllium", "Selenium", "Arscenic", "Silver")), ]
@@ -32,19 +32,28 @@ shinyUI(
                     choices=returnSiteGlob(unique(wqDF$Site)),
                     multiple=FALSE,
                     selectize=TRUE,
-                    selected="MC22A"),
+                    selected="MC22A"
+                ),
                 selectInput(
                     inputId="analyte",
                     label="Choose: ",
                     unique(wqDF$Analyte)
-                )
-            ),
+                ),
+                dateRangeInput(inputId="dates",
+                               label="Filter Dates: ",
+                               start="2010-01-01", end=Sys.Date(),
+                               min="1986-11-03",
+                               max=Sys.Date(),
+                               startview="year", weekstart=0
+                               )
+                ),
             mainPanel(
                 tabsetPanel(type="tabs",
                             tabPanel("Interactive Plot",
                                      fluidRow(
                                          column(12, h3("TS Plot of Data"),
-                                                plotlyOutput("tsPlot")
+                                                plotlyOutput("tsPlot"),
+                                                height="500px"
                                                 )
                                          )##,
                                      ## fluidRow(
