@@ -190,14 +190,14 @@ shinyServer(
             plot(x=NA, y=NA, xlim=c(0,1), ylim=c(0,1),
                  pch=NA, xlab=NA, ylab=NA, axes=FALSE)
             if (alt=="g"){
-                rect(xleft=0, xright=0.1, ybottom=0, ytop=1,
+                rect(xleft=0, xright=input$cutoff, ybottom=0, ytop=1,
                      col="grey90", border=NA)
             } else if (alt=="l") {
-                rect(xleft=0.10, xright=1, ybottom=0, ytop=1,
+                rect(xleft=input$cutoff, xright=1, ybottom=0, ytop=1,
                      col="grey90", border=NA)
             }
             points(x=biTest$estimate, y=0.5, pch=18, cex=2)
-            lines(x=rep(0.10,2), y=c(0,1), col="red",lty=2)
+            lines(x=rep(input$cutoff,2), y=c(0,1), col="red",lty=2)
             lines(x=rep(biTest$conf.int[1],2), y=c(0.4, 0.6), lwd=2)
             lines(x=rep(biTest$conf.int[2],2), y=c(0.4, 0.6), lwd=2)
             lines(x=c(biTest$conf.int[1], biTest$conf.int[2]),
@@ -209,7 +209,7 @@ shinyServer(
         }
 
         ## ... Repeat yourself
-        output$excPlotG <- renderPlot({
+        output$excPlot <- renderPlot({
 
             ## Get metal data, hardness, standard at that hardness
             tDiffData <- returnDiffData(site=input$sitecode,
@@ -219,16 +219,16 @@ shinyServer(
             binomData <- tDiffData[["aData"]]["Result.x"]-
                     tDiffData[["aData"]]["aStan"]
 
-            useTestG <- binom.test(x=sum(binomData[,1]>=0),
+            useTest <- binom.test(x=sum(binomData[,1]>=0),
                                    n=length(binomData[,1]),
-                                   p=0.10,
-                                   alternative="t", conf.level=0.90)
+                                   p=input$cutoff,
+                                  alternative=input$radio, conf.level=input$conf)
 
             ## Plot function for binomial plots
             par(xaxs="i", yaxs="i", fig=c(0,1,0.5,1))
 
             ## Call it, 2x
-            excPlotFun(biTest=useTestG, alt="g")
+            excPlotFun(biTest=useTest, alt=input$radio)
         })
 
 
