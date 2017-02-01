@@ -68,7 +68,15 @@ shinyUI(
                                                   height="500px")
                                      ),
                             tabPanel("exPlot", br(),
-                                     plotOutput("excPlotG",
+                                     radioButtons(inputId="radio",
+                                                  label = h3("H Tests"),
+                                                  choices = list(
+                                                      "Listing" = "g",
+                                                      "Delisting" = "l",
+                                                      "Two-sided!"= "t"),
+                                                  selected = "g"
+                                                ),
+                                     plotOutput("excPlot",
                                                   height="500px")
                                      )
 

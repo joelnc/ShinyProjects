@@ -209,7 +209,7 @@ shinyServer(
         }
 
         ## ... Repeat yourself
-        output$excPlotG <- renderPlot({
+        output$excPlot <- renderPlot({
 
             ## Get metal data, hardness, standard at that hardness
             tDiffData <- returnDiffData(site=input$sitecode,
@@ -219,16 +219,16 @@ shinyServer(
             binomData <- tDiffData[["aData"]]["Result.x"]-
                     tDiffData[["aData"]]["aStan"]
 
-            useTestG <- binom.test(x=sum(binomData[,1]>=0),
+            useTest <- binom.test(x=sum(binomData[,1]>=0),
                                    n=length(binomData[,1]),
                                    p=0.10,
-                                   alternative="t", conf.level=0.90)
+                                  alternative=input$radio, conf.level=0.90)
 
             ## Plot function for binomial plots
             par(xaxs="i", yaxs="i", fig=c(0,1,0.5,1))
 
             ## Call it, 2x
-            excPlotFun(biTest=useTestG, alt="g")
+            excPlotFun(biTest=useTest, alt=input$radio)
         })
 
 
