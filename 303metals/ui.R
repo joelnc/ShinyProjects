@@ -68,14 +68,35 @@ shinyUI(
                                                   height="500px")
                                      ),
                             tabPanel("exPlot", br(),
-                                     radioButtons(inputId="radio",
-                                                  label = h3("H Tests"),
-                                                  choices = list(
-                                                      "Listing" = "g",
-                                                      "Delisting" = "l",
-                                                      "Two-sided!"= "t"),
-                                                  selected = "g"
+                                     fluidRow(
+                                         column(5,
+                                                radioButtons(inputId="radio",
+                                                             label = h3("Hypothesis Tests"),
+                                                             choices = list(
+                                                                 "Listing (assuming the site is not 303(d) listed for this pollutant)" = "g",
+                                                                 "Delisting (assuming the site is 303(d) listed for this pollutant)" = "l",
+                                                                 "Two-sided!"= "t"),
+                                                             selected = "g"
+                                                             )
                                                 ),
+                                         column(7,
+                                                sliderInput(inputId="conf",
+                                                            label=
+                                                                "Condidence Level (90% = 0.9)",
+                                                            min=0, max=1,
+                                                            value=.9, step=0.01,
+                                                            round=FALSE,
+                                                            animate=TRUE),
+                                                sliderInput(inputId="cutoff",
+                                                            label=
+                                                                "Exceedance Level (10% = 0.10)",
+                                                            min=0, max=1,
+                                                            value=.1, step=0.01,
+                                                            round=FALSE,
+                                                            animate=TRUE)
+                                                )
+                                         ),
+
                                      plotOutput("excPlot",
                                                   height="500px")
                                      )
