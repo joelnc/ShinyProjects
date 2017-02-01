@@ -70,11 +70,11 @@ shinyServer(
             }
         })
 
-
         ## TDiff Plot
         output$tDiffPlot <- renderPlotly({
             tDiffData <- returnDiffData(site=input$sitecode,
-                                     metal=input$analyte)
+                                     metal=input$analyte,
+                                        dates=input$dates)
 
             ## No metals data
             if (nrow(tDiffData[["tData"]])==0) {
@@ -126,7 +126,7 @@ shinyServer(
                         x=~xT$Coldate, y=~yT$Result.x,
                         type="scatter", mode="markers",
                         marker = list(size=4),
-                        symbol=~grp$Site,
+##                        symbol=~grp$Site,
                         color=I('black'),
                         name="Total      ")
 
@@ -154,14 +154,14 @@ shinyServer(
                     ## Plot data series
                     add_trace(
                         x=~xT$Coldate, y=~yT$Result.x,
-                        symbol=grpT$Site,
+##                        symbol=grpT$Site,
                         type="scatter", mode="markers",
                         marker = list(size = 4),
                         color=I('black'),
                         name="Total") %>%
                     add_trace(
                         x=~xD$Coldate, y=~yD$Result.x,
-                        symbol=grpD$Site,
+  ##                      symbol=grpD$Site,
                         type="scatter", mode="markers",
                         marker = list(size = 6),
                         color=I('red'),
@@ -183,5 +183,53 @@ shinyServer(
                     )
             }
         })
+
+        ## Plot fun
+        excPlotFun <- function(biTest, alt) {
+
+            plot(x=NA, y=NA, xlim=c(0,1), ylim=c(0,1),
+                 pch=NA, xlab=NA, ylab=NA, axes=FALSE)
+            if (alt=="g"){
+                rect(xleft=0, xright=0.1, ybottom=0, ytop=1,
+                     col="grey90", border=NA)
+            } else if (alt=="l") {
+                rect(xleft=0.10, xright=1, ybottom=0, ytop=1,
+                     col="grey90", border=NA)
+            }
+            points(x=biTest$estimate, y=0.5, pch=18, cex=2)
+            lines(x=rep(0.10,2), y=c(0,1), col="red",lty=2)
+            lines(x=rep(biTest$conf.int[1],2), y=c(0.4, 0.6), lwd=2)
+            lines(x=rep(biTest$conf.int[2],2), y=c(0.4, 0.6), lwd=2)
+            lines(x=c(biTest$conf.int[1], biTest$conf.int[2]),
+                  y=c(0.5, 0.5), lwd=2)
+            box()
+            axis(1, at=seq(0,1,0.1), labels=seq(0,100,10))
+            mtext(side=1, text="Exceedance Percent (%)",
+                  line=3, font=2, cex=1.25)
+        }
+
+        ## ... Repeat yourself
+        output$excPlotG <- renderPlot({
+
+            ## Get metal data, hardness, standard at that hardness
+            tDiffData <- returnDiffData(site=input$sitecode,
+                                     metal=input$analyte,
+                                        dates=input$dates)
+
+            binomData <- tDiffData[["aData"]]["Result.x"]-
+                    tDiffData[["aData"]]["aStan"]
+
+            useTestG <- binom.test(x=sum(binomData[,1]>=0),
+                                   n=length(binomData[,1]),
+                                   p=0.10,
+                                   alternative="t", conf.level=0.90)
+
+            ## Plot function for binomial plots
+            par(xaxs="i", yaxs="i", fig=c(0,1,0.5,1))
+
+            ## Call it, 2x
+            excPlotFun(biTest=useTestG, alt="g")
+        })
+
 
     }) ## Done

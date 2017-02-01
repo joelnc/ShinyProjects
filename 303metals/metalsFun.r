@@ -9,16 +9,20 @@ returnData <- function(site, metal, dates){
     return(data)
 }
 
-returnDiffData <- function(site, metal) {
+returnDiffData <- function(site, metal, dates) {
     ## Return a list with a dissolved and a total df
 
     ## Subset data
     data <- wqDF[which(wqDF$Site %in% site &
                        wqDF$Analyte==metal &
-                       wqDF$Element=="ICS1.1"), ]
+                       wqDF$Element=="ICS1.1"&
+                       wqDF$Date>=dates[1] &
+                       wqDF$Date<=dates[2]), ]
     hd <- wqDF[which(wqDF$Site %in% site &
                        wqDF$Analyte=="Hardness" &
-                       wqDF$Element=="ICS1.1"), ]
+                       wqDF$Element=="ICS1.1" &
+                       wqDF$Date>=dates[1] &
+                       wqDF$Date<=dates[2]), ]
 
 
     metalHd <- merge(data, hd, by="Coldate", all=TRUE)
@@ -41,7 +45,8 @@ returnDiffData <- function(site, metal) {
               metalHd$aStanValid=="yes" &
               metalHd$Coldate>as.POSIXct("2010-01-01 0:00"))
 
-    return(list(tData=metalHd[FIMT, ], dData=metalHd[FIMD, ]))
+    return(list(tData=metalHd[FIMT, ], dData=metalHd[FIMD, ],
+                aData=metalHd[c(FIMT,FIMD), ]))
 }
 
 returnSiteName <- function(siteAbr) {

@@ -62,11 +62,16 @@ shinyUI(
                                      ##            height="350px"
                                      ##            )
                                      ##     )
-                                      )#,
-                            ## tabPanel("DiffPlot", br(),
-                            ##          plotlyOutput("tsPlot",
-                            ##                       height="300px")
-                            ##          )
+                                      ),
+                            tabPanel("DiffPlot", br(),
+                                     plotlyOutput("tDiffPlot",
+                                                  height="500px")
+                                     ),
+                            tabPanel("exPlot", br(),
+                                     plotOutput("excPlotG",
+                                                  height="500px")
+                                     )
+
                             )
                 )
             )
