@@ -12,19 +12,43 @@ shinyUI(
                br(),
                p(t[1]),
                fluidRow(
-                   selectInput(
-                       inputId= "dataset",
-                       label="Choose Hypothetical Dataset: ",
-                       choices=c("Slight (3 exceedances out of 13)"="data1",
-                                 "Vast (3 exceedances out of 13)"="data2",
-                                               "2 exceedances out of 13"="data3",
-                                               "1 exceedance out of 13"="data4",
-                                               "0 exceedances out of 13"="data5",
-                                               "0 exceedances out of 23"="data6",
-                                               "1 exceedance out of 37"="data7",
-                                               "2 exceedances out of 52"="data8"),
-                                     selected="data1"),
-                   hr(), h4("CharMeck Metals Data")
+                   column(3, hr(),
+                          selectInput(
+                              inputId= "dataset",
+                              label="Choose Hypothetical Dataset: ",
+                              choices=c("Slight (3 exceedances out of 13)"="data1",
+                                        "Vast (3 exceedances out of 13)"="data2",
+                                        "2 exceedances out of 13"="data3",
+                                        "1 exceedance out of 13"="data4",
+                                        "0 exceedances out of 13"="data5",
+                                        "0 exceedances out of 23"="data6",
+                                        "1 exceedance out of 37"="data7",
+                                        "2 exceedances out of 52"="data8"),
+                              selected="data1")
+                          ),
+                   column(9,
+                          hr(), h4("CharMeck Metals Data"),
+                          selectInput(
+                              inputId= "sitecode",
+                              label="Choose Site: ",
+                              choices=returnSiteGlob(unique(wqDF$Site)),
+                              multiple=FALSE,
+                              selectize=TRUE,
+                              selected="MC22A"
+                          ),
+                          selectInput(
+                              inputId="analyte",
+                              label="Choose: ",
+                              unique(wqDF$Analyte)
+                          ),
+                          dateRangeInput(inputId="dates",
+                                         label="Filter Dates: ",
+                                         start="2010-01-01", end=Sys.Date(),
+                                         min="1986-11-03",
+                                         max=Sys.Date(),
+                                         startview="year", weekstart=0
+                                         )
+                          )
                ),
 
                tabPanel("Hypothetical",
