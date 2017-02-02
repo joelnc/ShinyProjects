@@ -22,77 +22,78 @@ shinyUI(
                selected="Hypothetical",
                br(),
                p(t[1]),
-               wellPanel(
                fluidRow(
-                   column(12, h2("Data Selection", align="center"), hr(),
-                          fluidRow(
-                              column(4, h3("Hypothetical Data Selection"),
-                                     selectInput(
-                                         inputId= "dataset",
-                                         label="Select Dataset: ",
-                                         choices=c("Slight (3 exceedances out of 13)"="data1",
-                                                   "Vast (3 exceedances out of 13)"="data2",
-                                                   "2 exceedances out of 13"="data3",
-                                                   "1 exceedance out of 13"="data4",
-                                                   "0 exceedances out of 13"="data5",
-                                                   "0 exceedances out of 23"="data6",
-                                                   "1 exceedance out of 37"="data7",
-                                                   "2 exceedances out of 52"="data8"),
-                                         selected="data1")
-                                     ),
-                              column(8,
-                                     fluidRow(
-                                         column(12, h3("CharMeck Metals Data", align="center"),
-                                                hr(),
-                                                fluidRow(
-                                                    column(6,
-                                                           selectInput(
-                                                               inputId= "sitecode",
-                                                               label="Select Site: ",
-                                                               choices=returnSiteGlob(unique(wqDF$Site)),
-                                                               multiple=FALSE, selectize=TRUE,
-                                                               selected="MC22A")
-                                                           ),
-                                                    column(6,
-                                                           selectInput(
-                                                               inputId="analyte", label="Select Analyte: ",
-                                                               unique(wqDF$Analyte))
-                                                           ),
-                                                    fluidRow(
-                                                    column(12, align="center",
-                                                           dateRangeInput(inputId="dates",
-                                                                          label="Filter Dates: ",
-                                                                          start="2010-01-01", end=Sys.Date(),
-                                                                          min="1986-11-03", max=Sys.Date(),
-                                                                          startview="year", weekstart=0)
-                                                           ))
-                                                ))
+                   column(4, h3("Hypothetical Data Selection"),
+                          wellPanel(
+                              selectInput(
+                                  inputId= "dataset",
+                                  label="Select Dataset: ",
+                                  choices=c("Slight (3 exceedances out of 13)"="data1",
+                                            "Vast (3 exceedances out of 13)"="data2",
+                                            "2 exceedances out of 13"="data3",
+                                            "1 exceedance out of 13"="data4",
+                                            "0 exceedances out of 13"="data5",
+                                            "0 exceedances out of 23"="data6",
+                                            "1 exceedance out of 37"="data7",
+                                            "2 exceedances out of 52"="data8"),
+                                  selected="data1")
+                          )
+                          ),
+                   column(8, h3("CharMeck Metals Data", align="center"),
+                          wellPanel(
+                              fluidRow(
+                                  column(12,
+                                         hr(),
+                                         fluidRow(
+                                             column(6,
+                                                    selectInput(
+                                                        inputId= "sitecode",
+                                                        label="Select Site: ",
+                                                        choices=returnSiteGlob(unique(wqDF$Site)),
+                                                        multiple=FALSE, selectize=TRUE,
+                                                        selected="MC22A")
+                                                    ),
+                                             column(6,
+                                                    selectInput(
+                                                        inputId="analyte", label="Select Analyte: ",
+                                                        unique(wqDF$Analyte))
+                                                    )
+                                         ),
+                                         fluidRow(
+                                             column(12, align="center",
+                                                    dateRangeInput(inputId="dates",
+                                                                   label="Filter Dates: ",
+                                                                   start="2010-01-01", end=Sys.Date(),
+                                                                   min="1986-11-03", max=Sys.Date(),
+                                                                   startview="year", weekstart=0)
+                                                    )
                                          )
-                                     )
-                          ))
-                  )),
+                                         )
+                              )
+                          )
+                          )
+               ),
 
                tabPanel("Hypothetical",
                                    tabsetPanel(type="tabs",
                                                tabPanel(title="Time Series",
-                                                        h3("Hypothetical Time Series"),
-                                                        t[2], plotOutput("tsPlot")),
-                                               tabPanel(title="Histogram",
-                                                        br(), t[3],
-                                                        plotOutput("tsHist", width="100%")),
+                                                        h4("Hypothetical Time Series"),
+                                                        t[2], br(), br(), t[3], plotOutput("tsPlot")),
                                                tabPanel(title="Listing Analysis",
-                                                        h3("Hypothetical . Time series Stuff"),
-                                                        br(), t[4],
+                                                        h4("Hypothetical Time Series"),
+                                                        t[4],
                                                         plotOutput("excPlotG")),
                                                tabPanel(title="Delisting Analysis*",
-                                                        br(), t[5], br(), br(), t[6],
+                                                        h4("Hypothetical Time Series"),
+                                                        t[5], br(), br(), t[6],
                                                         plotOutput("excPlotL")),
                                                tabPanel(title="Two Sided Test",
-                                                        br(), t[7], br(), br(), t[8],
-                                             plotOutput("excPlotT")),
-                                    tabPanel("'One in Three'",
-                                             br(), p("text about EPA 1 in 3"))
-                                    )
+                                                        h4("Hypothetical Time Series"),
+                                                        t[7], br(), br(), t[8],
+                                                        plotOutput("excPlotT")),
+                                               tabPanel("'One in Three'",
+                                                        br(), t[9])
+                                               )
                         ),
                tabPanel("CharMeck Metals",
                         tabsetPanel(type="tabs",
