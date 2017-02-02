@@ -20,12 +20,32 @@ shinyServer(
         output$tsPlot <- renderPlot({
 
             ## Data time series- use the pass in input$dataset to select column
-            par(xaxs="i", yaxs="i", mar=c(5,8,2,5))
+            par(xaxs="i", yaxs="i", mar=c(5,8,2,2),
+                fig=c(0,.75,0,1))
             dt <- seq.Date(from=as.Date("2015-01-01"), by="month",
                            length.out=length(dataList[[input$dataset]]))
             plot(dt, dataList[[input$dataset]], ylim=c(0,100), cex=1.2,
-                 pch=18, xlab=NA, ylab="Conc. (mg/l)")
+                 pch=18, xlab=NA, ylab=NA)
             lines(x=dt,y=rep(10,length(dt)), col="red")
+            mtext(2, text="Conc. (mg/L)", cex=1.4, font=2,
+                  line=3)
+
+            par(xaxs="i", yaxs="i", mar=c(5,4 ,2,2),
+                fig=c(0.75,1,0,1), new=TRUE)
+
+            hData <- data.frame(exc=0, notExc=0)
+            hData$exc <- hData$exc+table(dataList[[input$dataset]]>10)[2]
+            hData$notExc <- hData$notExc+table(dataList[[input$dataset]]>10)[1]
+
+            barplot(c(hData[1,1], hData[1,2]), space=0, axes=FALSE,
+                    col="blue",
+                    ylim=c(0, length(dataList[[input$dataset]]+2)))
+            box()
+            axis(1,at=c(0.5, 1.5), labels=c("Yes", "No"))
+            axis(2,at=seq(0,55,5))
+            mtext(side=1, text="Exceeds Standard?", line=3,font=2, cex=1.25)
+
+
         })
 
         output$tsHist <- renderPlot({
@@ -39,8 +59,20 @@ shinyServer(
             axis(1,at=c(0.25, .75), labels=c("No", "Yes"))
             axis(2,at=seq(0,55,5))
             mtext(side=1, text="Exceeds Standard?", line=3,font=2, cex=1.25)
-
         })
+
+        output$tsHistPlot <- renderPlot({
+
+            ## Data time series- use the pass in input$dataset to select column
+            par(xaxs="i", yaxs="i", mar=c(5,8,2,5),
+                fig=c(0,.5,0,1))
+            dt <- seq.Date(from=as.Date("2015-01-01"), by="month",
+                           length.out=length(dataList[[input$dataset]]))
+            plot(dt, dataList[[input$dataset]], ylim=c(0,100), cex=1.2,
+                 pch=18, xlab=NA, ylab="Conc. (mg/l)")
+            lines(x=dt,y=rep(10,length(dt)), col="red")
+        })
+
 
         ## Plot fun
         excPlotFun <- function(biTest, alt) {

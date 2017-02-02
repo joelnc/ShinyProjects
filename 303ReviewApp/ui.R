@@ -1,10 +1,20 @@
 library(shiny)
-
+source("metalsFun.r")
 f <- "appText.dat"
 con <- file(f, open="r")
 t <- readLines(con)
 t <- t[which(t!="")]
 close(con)
+
+## Load, format, subset, WQD File
+wqDF <- read.csv("LabReport.txt",
+                 stringsAsFactors=FALSE, sep=",", header=TRUE)
+wqDF$Coldate <- as.POSIXct(wqDF$Coldate, format="%m/%d/%Y %H:%M:%S")
+##wqDF$Date <- as.Date(wqDF$Coldate)  ## If needed
+wqDF <- wqDF[which(wqDF$Analyte %in%
+                   c("Copper", "Lead", "Zinc", "Cadmium", "Chromium",
+                     "Beryllium", "Selenium", "Arscenic", "Silver")), ]
+wqDF <<- wqDF[order(wqDF$Coldate), ]
 
 ## Define UI for applicaiton that draws a hist
 shinyUI(
@@ -12,13 +22,14 @@ shinyUI(
                selected="Hypothetical",
                br(),
                p(t[1]),
+               wellPanel(
                fluidRow(
-                   column(12, "Data Selection Area",hr(),
+                   column(12, h2("Data Selection", align="center"), hr(),
                           fluidRow(
                               column(4, h3("Hypothetical Data Selection"),
                                      selectInput(
                                          inputId= "dataset",
-                                         label="Choose Hypothetical Dataset: ",
+                                         label="Select Dataset: ",
                                          choices=c("Slight (3 exceedances out of 13)"="data1",
                                                    "Vast (3 exceedances out of 13)"="data2",
                                                    "2 exceedances out of 13"="data3",
@@ -37,14 +48,14 @@ shinyUI(
                                                     column(4,
                                                            selectInput(
                                                                inputId= "sitecode",
-                                                               label="Choose Site: ",
+                                                               label="Select Site: ",
                                                                choices=returnSiteGlob(unique(wqDF$Site)),
                                                                multiple=FALSE, selectize=TRUE,
                                                                selected="MC22A")
                                                            ),
                                                     column(4,
                                                            selectInput(
-                                                               inputId="analyte", label="Choose: ",
+                                                               inputId="analyte", label="Choose Analyte: ",
                                                                unique(wqDF$Analyte))
                                                            ),
                                                     column(4,
@@ -54,15 +65,13 @@ shinyUI(
                                                                           min="1986-11-03", max=Sys.Date(),
                                                                           startview="year", weekstart=0)
                                                            )
-                                                )
-                                                )
+                                                ))
                                          )
                                      )
-                          )
-                          )
-                  ),
+                          ))
+                  )),
 
-                          tabPanel("Hypothetical",
+               tabPanel("Hypothetical",
                                    tabsetPanel(type="tabs",
                                                tabPanel(title="Time Series",
                                                         h3("Hypothetical Time Series"),
