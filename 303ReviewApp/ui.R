@@ -1,10 +1,13 @@
 library(shiny)
 source("metalsFun.r")
+source("metalsThresFuns.r")
+
 f <- "appText.dat"
 con <- file(f, open="r")
 t <- readLines(con)
 t <- t[which(t!="")]
 close(con)
+textI <- 1
 
 ## Load, format, subset, WQD File
 wqDF <- read.csv("LabReport.txt",
@@ -85,7 +88,17 @@ shinyUI(
                                                tabPanel(title="Delisting Analysis*",
                                                         h4("Hypothetical Time Series"),
                                                         t[5], br(), br(), t[6],
-                                                        plotOutput("excPlotL")),
+                                                        fluidRow(
+                                                            column(3, align="right",
+                                                                   br(),
+                                                                   img(src="stormyLook.jpg",
+                                                                       height="200", width="150")
+                                                                   ),
+                                                            column(9, align="left",
+                                                                   plotOutput("excPlotL")
+                                                            )
+                                                        )
+                                                       ),
                                                tabPanel(title="Two Sided Test",
                                                         h4("Hypothetical Time Series"),
                                                         t[7], br(), br(), t[8],
@@ -126,7 +139,16 @@ shinyUI(
                                                                     animate=TRUE)
                                                 )
                                              ),
-                                             plotOutput("excPlot", height="500px")
+                                             fluidRow(
+                                                 column(9,
+                                                        plotOutput("excPlot", height="500px")
+                                                        ),
+                                                 column(3,
+                                                        br(), br(),
+                                                        img(src="stormy.jpg",
+                                                            height="200", width="125")
+                                                        )
+                                             )
                                              )
                                     )
                         )

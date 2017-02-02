@@ -342,6 +342,5 @@ shinyServer(
             excPlotFun(biTest=useTest, alt=input$radio)
         })
 
-
     }) ## Done
 
