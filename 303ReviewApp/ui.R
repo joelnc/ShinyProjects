@@ -10,7 +10,7 @@ close(con)
 wqDF <- read.csv("LabReport.txt",
                  stringsAsFactors=FALSE, sep=",", header=TRUE)
 wqDF$Coldate <- as.POSIXct(wqDF$Coldate, format="%m/%d/%Y %H:%M:%S")
-##wqDF$Date <- as.Date(wqDF$Coldate)  ## If needed
+wqDF$Date <- as.Date(wqDF$Coldate)  ## If needed
 wqDF <- wqDF[which(wqDF$Analyte %in%
                    c("Copper", "Lead", "Zinc", "Cadmium", "Chromium",
                      "Beryllium", "Selenium", "Arscenic", "Silver")), ]
@@ -23,7 +23,7 @@ shinyUI(
                br(),
                p(t[1]),
                fluidRow(
-                   column(4, h3("Hypothetical Data Selection"),
+                   column(4, h3("Hypothetical Data Selection", align="center"),
                           wellPanel(
                               selectInput(
                                   inputId= "dataset",
@@ -43,7 +43,6 @@ shinyUI(
                           wellPanel(
                               fluidRow(
                                   column(12,
-                                         hr(),
                                          fluidRow(
                                              column(6,
                                                     selectInput(
@@ -97,10 +96,38 @@ shinyUI(
                         ),
                tabPanel("CharMeck Metals",
                         tabsetPanel(type="tabs",
-                                    tabPanel(title="TS",
-                                             h3("Real Time series Stuff")),
-                                    tabPanel(title="RealHist.",
-                                             h3("Hyp. hist.."))
+                                    tabPanel(title="Time Series Conc.",
+                                             plotlyOutput("cmTsPlot")),
+                                    tabPanel(title="Time Series Exceedances",
+                                             plotlyOutput("tDiffPlot")),
+                                    tabPanel(title="90% Confidence",
+                                             fluidRow(
+                                                 column(5,
+                                                        radioButtons(inputId="radio",
+                                                                     label = h3("Hypothesis Tests"),
+                                                                     choices = list(
+                                                                         "Listing (assuming the site is not 303(d) listed for this pollutant)" = "g",
+                                                                         "Delisting (assuming the site is 303(d) listed for this pollutant)" = "l",
+                                                                         "Two-sided!"= "t"),
+                                                                     selected = "g")
+                                                        ),
+                                                 column(7,
+                                                        sliderInput(inputId="conf",
+                                                                    label="Condidence Level (90% = 0.9)",
+                                                                    min=0, max=1,
+                                                                    value=.9, step=0.01,
+                                                                    round=FALSE,
+                                                                    animate=TRUE),
+                                                        sliderInput(inputId="cutoff",
+                                                                    label="Exceedance Level (10% = 0.10)",
+                                                                    min=0, max=1,
+                                                                    value=.1, step=0.01,
+                                                                    round=FALSE,
+                                                                    animate=TRUE)
+                                                )
+                                             ),
+                                             plotOutput("excPlot", height="500px")
+                                             )
                                     )
                         )
                )
