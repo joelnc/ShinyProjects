@@ -45,7 +45,7 @@ shinyUI(
                                          column(12, h3("CharMeck Metals Data", align="center"),
                                                 hr(),
                                                 fluidRow(
-                                                    column(4,
+                                                    column(6,
                                                            selectInput(
                                                                inputId= "sitecode",
                                                                label="Select Site: ",
@@ -53,18 +53,19 @@ shinyUI(
                                                                multiple=FALSE, selectize=TRUE,
                                                                selected="MC22A")
                                                            ),
-                                                    column(4,
+                                                    column(6,
                                                            selectInput(
-                                                               inputId="analyte", label="Choose Analyte: ",
+                                                               inputId="analyte", label="Select Analyte: ",
                                                                unique(wqDF$Analyte))
                                                            ),
-                                                    column(4,
+                                                    fluidRow(
+                                                    column(12, align="center",
                                                            dateRangeInput(inputId="dates",
                                                                           label="Filter Dates: ",
                                                                           start="2010-01-01", end=Sys.Date(),
                                                                           min="1986-11-03", max=Sys.Date(),
                                                                           startview="year", weekstart=0)
-                                                           )
+                                                           ))
                                                 ))
                                          )
                                      )
