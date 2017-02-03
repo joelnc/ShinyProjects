@@ -77,35 +77,35 @@ shinyUI(
                ),
 
                tabPanel("Hypothetical",
-                                   tabsetPanel(type="tabs",
-                                               tabPanel(title="Time Series",
-                                                        h4("Hypothetical Time Series"),
-                                                        t[2], br(), br(), t[3], plotOutput("tsPlot")),
-                                               tabPanel(title="Listing Analysis",
-                                                        h4("Hypothetical Time Series"),
-                                                        t[4],
-                                                        plotOutput("excPlotG")),
-                                               tabPanel(title="Delisting Analysis*",
-                                                        h4("Hypothetical Time Series"),
-                                                        t[5], br(), br(), t[6],
-                                                        fluidRow(
-                                                            column(3, align="right",
-                                                                   br(),
-                                                                   img(src="stormyLook.jpg",
-                                                                       height="200", width="150")
-                                                                   ),
-                                                            column(9, align="left",
-                                                                   plotOutput("excPlotL")
-                                                            )
+                        tabsetPanel(type="tabs",
+                                    tabPanel(title="Time Series",
+                                             h4("Hypothetical Time Series"),
+                                             t[2], br(), br(), t[3], plotOutput("tsPlot")),
+                                    tabPanel(title="Listing Analysis",
+                                             h4("Hypothetical Time Series"),
+                                             t[4],
+                                             plotOutput("excPlotG")),
+                                    tabPanel(title="Delisting Analysis*",
+                                             h4("Hypothetical Time Series"),
+                                             t[5], br(), br(), t[6],
+                                             fluidRow(
+                                                 column(3, align="right",
+                                                        br(),
+                                                        img(src="stormyLook.jpg",
+                                                            height="200", width="150")
+                                                        ),
+                                                 column(9, align="left",
+                                                        plotOutput("excPlotL")
                                                         )
-                                                       ),
-                                               tabPanel(title="Two Sided Test",
-                                                        h4("Hypothetical Time Series"),
-                                                        t[7], br(), br(), t[8],
-                                                        plotOutput("excPlotT")),
-                                               tabPanel("'One in Three'",
-                                                        br(), t[9])
-                                               )
+                                                 )
+                                             ),
+                                    tabPanel(title="Two Sided Test",
+                                             h4("Hypothetical Time Series"),
+                                             t[7], br(), br(), t[8],
+                                             plotOutput("excPlotT")),
+                                    tabPanel("'One in Three'",
+                                             br(), t[9])
+                                    )
                         ),
                tabPanel("CharMeck Metals",
                         tabsetPanel(type="tabs",
@@ -137,8 +137,8 @@ shinyUI(
                                                                     value=.1, step=0.01,
                                                                     round=FALSE,
                                                                     animate=TRUE)
-                                                )
-                                             ),
+                                                        )
+                                                 ),
                                              fluidRow(
                                                  column(9,
                                                         plotOutput("excPlot", height="500px")
@@ -148,12 +148,68 @@ shinyUI(
                                                         img(src="stormy.jpg",
                                                             height="200", width="125")
                                                         )
+                                                 )
                                              )
+                                    )
+                        ),
+               tabPanel("Other Features",
+                        tabsetPanel(type="tabs",
+                                    tabPanel(title="Multiselect",
+                                             h2("Content Here"),
+                                             wellPanel(
+                                                 fluidRow(
+                                                     selectInput(
+                                                         inputId="sitecode2",
+                                                         label="Choose Site: ",
+                                                         choices=returnSiteGlob(unique(wqDF$Site)),
+                                                         multiple=TRUE,
+                                                         selectize=TRUE,
+                                                         selected="MC22A")
+                                                     ),
+                                                 fluidRow(
+                                                     column(6,
+                                                            selectInput(
+                                                            inputId="analyte2",
+                                                            label="Choose: ",
+                                                            unique(wqDF$Analyte))
+                                                            ),
+                                                     column(6,
+                                                            selectInput(
+                                                                inputId="element2",
+                                                                label="Select: ",
+                                                                unique(wqDF$Element),
+                                                                multiple=TRUE,
+                                                                selectize=TRUE,
+                                                                selected="ICS1.1")
+                                                            )
+                                                     ),
+                                                 fluidRow(
+                                                     column(7,
+                                                            dateRangeInput(inputId="dates2",
+                                                                    label="Filter Dates: ",
+                                                                    start="2010-01-01", end=Sys.Date(),
+                                                                    min="1986-11-03", max=Sys.Date(),
+                                                                    startview="year", weekstart=0)
+                                                            )
+                                                     )
+                                                 ),
+
+                                             checkboxInput("log", "Log Y Axis?",
+                                                   value=FALSE),
+
+                                             checkboxInput("sj", "Steve J.?",
+                                                           value=FALSE),
+                                             fluidRow(
+                                                 plotlyOutput("lastTSPlot", height="500px")
+                                                 )
+
                                              )
                                     )
                         )
                )
-)
+    )
+
+
 
 
 

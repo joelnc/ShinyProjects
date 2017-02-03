@@ -342,5 +342,54 @@ shinyServer(
             excPlotFun(biTest=useTest, alt=input$radio)
         })
 
+        ## Last Plot-- selectize mashup
+        output$lastTSPlot <- renderPlotly({
+            tsFinalData <- returnData2(site2=input$sitecode2,
+                                       metal2=input$analyte2,
+                                       dates2=input$dates2,
+                                       element2=input$element2,
+                                       sj=input$sj)
+            if (nrow(tsFinalData)==0) {
+                plot_ly() %>%
+                    add_trace(
+                        x=NULL, y=NULL,
+                        type="scatter", mode="markers") %>%
+                    layout(
+                        xaxis=ax, yaxis=ax,
+                        annotations=list(
+                            x=0.5, y=0.95, xref="paper", yref="paper",
+                            text="No Data Meeting Selection Criteria",
+                            showarrow=FALSE, font=list(size=25))
+                    )
+            } else {
+                ## Name data
+                x <- tsFinalData$Coldate
+                y <- tsFinalData$Result
+                grp <- tsFinalData$Site
+
+                yAx <- list(
+                    title=tsFinalData$Aunit[1], titlefont=list(size=25),
+                    type=ifelse(input$log, "log", "linear")
+                )
+
+                plot_ly() %>%
+                    ## Plot data series
+                    add_trace(
+                        x=~x, y=~y, symbol=~grp,
+                        type="scatter", mode="markers",
+                        symbols='circle', name="Total"
+                    ) %>%
+                    layout(
+                        yaxis=yAx,
+                        margin=list(l=90, r=60, b=80, t=150, pad=0),
+                        title=input$analyte2, titlefont=list(size=25)
+                    )
+            }
+
+
+
+        })
+
+
     }) ## Done
 

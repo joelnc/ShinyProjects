@@ -9,6 +9,28 @@ returnData <- function(site, metal, dates){
     return(data)
 }
 
+## <- function(site, metal, dates1, dates2){
+returnData2 <- function(site2, metal2, dates2, element2, sj){
+    ## Create a list with a dissovled and a total metals
+    if (sj!=TRUE) {
+        data2 <- wqDF[which(wqDF$Site %in% site2 &
+                       wqDF$Analyte==metal2 &
+                       wqDF$Element %in% element2 &
+                       wqDF$Date>=dates2[1] &
+                       wqDF$Date<=dates2[2]), ]
+    } else {
+        data2 <- wqDF[which(wqDF$Site %in% site2 &
+                       wqDF$Analyte==metal2 &
+                       wqDF$Element %in% element2 &
+                       wqDF$Date>=dates2[1] &
+                       wqDF$Date<=dates2[2] &
+                            wqDF$CollectedBy=="Steve Jadlocki"), ]
+    }
+
+    return(data2)
+}
+
+
 returnDiffData <- function(site, metal, dates) {
     ## Return a list with a dissolved and a total df
 
