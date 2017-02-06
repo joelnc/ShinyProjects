@@ -36,7 +36,6 @@ server <- function(input, output) {
     })
 
     observeEvent(input$done, {
-
         write(starts, "starts.txt")
         write(ends, "ends.txt")
 
