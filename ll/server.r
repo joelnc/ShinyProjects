@@ -1,6 +1,11 @@
 library(shiny)
 
 server <- function(input, output) {
+
+    vals <- reactiveValues(
+        selRows = rep(TRUE, nrow(llData))
+        )
+
     output$plot1 <- renderPlot({
         plot(llData$dt, llData$cfs)
     })
@@ -23,10 +28,20 @@ server <- function(input, output) {
             "brush: ", xy_range_str(input$plot_brush)
         )
     })
+
     observeEvent(input$addData, {
-        rbind(starts, input$plot_brush$xmin)
-        rbind(ends, input$plot_brush$xmax)
+        starts <<- rbind(starts, input$plot_brush$xmin)
+        ends <<- rbind(ends, input$plot_brush$xmax)
         print(starts)
     })
+
+    observeEvent(input$done, {
+
+        write(starts, "starts.txt")
+        write(ends, "ends.txt")
+
+
+    })
+
 
 }

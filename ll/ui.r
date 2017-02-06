@@ -21,6 +21,8 @@ ui <- basicPage(
     verbatimTextOutput("info"),
     hr(),
     actionButton("addData", "Add Event"),
+
+    actionButton("done", "Finished, Save"),
     p(starts),
     p(ends)
 )
