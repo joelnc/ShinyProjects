@@ -3,11 +3,50 @@ library(shiny)
 server <- function(input, output) {
 
     vals <- reactiveValues(
-        selRows = rep(TRUE, nrow(llData))
+        selRows = rep(TRUE, nrow(ppEff))
         )
 
-    output$plot1 <- renderPlot({
-        plot(llData$dt, llData$cfs)
+    output$plot1 <- renderPlot({ ## make this one plotly
+
+        if (input$log==TRUE) {
+            plot(ppEff$dt, ppEff$cts, log="y",
+                 type="l")
+            par(new=TRUE)
+            plot(ppRain$dt, ppRain$rain15, col="blue",
+                 type="h", ylim=rev(range(ppRain$rain15,
+                                          na.rm=TRUE)))
+        } else {
+            plot(ppEff$dt, ppEff$cts, type="l")
+            par(new=TRUE)
+            plot(ppRain$dt, ppRain$rain15, col="blue",
+                 type="h", ylim=rev(range(ppRain$rain15,
+                                          na.rm=TRUE)))
+
+        }
+
+    })
+    output$plot2 <- renderPlot({
+
+        effData <- ppEff[which(ppEff$dt>min(ppEff$dt) &
+                               ppEff$dt<(min(ppEff$dt)+(60*60*24*7))), ]
+        ppData <- ppRain[which(ppRain$dt>min(ppRain$dt) &
+                               ppRain$dt<(min(ppRain$dt)+(60*60*24*7))), ]
+
+        if (input$log==TRUE) {
+            plot(effData$dt, effData$cts, log="y",
+                 type="l")
+            par(new=TRUE)
+            plot(ppData$dt, ppData$rain15, col="blue",
+                 type="h", ylim=rev(range(ppData$rain15,
+                                          na.rm=TRUE)))
+        } else {
+            plot(effData$dt, effData$cts, type="l")
+            par(new=TRUE)
+            plot(ppData$dt, ppData$rain15, col="blue",
+                 type="h", ylim=rev(range(ppData$rain15,
+                                          na.rm=TRUE)))
+        }
+
     })
 
     output$info <- renderText({
