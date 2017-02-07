@@ -57,8 +57,10 @@ shinyUI(
                                                     ),
                                              column(6,
                                                     selectInput(
-                                                        inputId="analyte", label="Select Analyte: ",
-                                                        unique(wqDF$Analyte))
+                                                        inputId="analyte",
+                                                        label="Select Analyte: ",
+                                                        unique(wqDF$Analyte),
+                                                        selected="Copper")
                                                     )
                                          ),
                                          fluidRow(
@@ -89,12 +91,7 @@ shinyUI(
                                              h4("Hypothetical Time Series"),
                                              t[5], br(), br(), t[6],
                                              fluidRow(
-                                                 column(3, align="right",
-                                                        br(),
-                                                        img(src="stormyLook.jpg",
-                                                            height="200", width="150")
-                                                        ),
-                                                 column(9, align="left",
+                                                 column(12, align="center",
                                                         plotOutput("excPlotL")
                                                         )
                                                  )
@@ -104,7 +101,16 @@ shinyUI(
                                              t[7], br(), br(), t[8],
                                              plotOutput("excPlotT")),
                                     tabPanel("'One in Three'",
-                                             br(), t[9])
+                                             br(), t[9]),
+                                    tabPanel("Backgroud Docs.",
+                                              br(),
+                                              h3("Related Documents"),
+                                              a("EPA Public Notice Decision / 303(d) Listing Letter",
+                                                href="https://www.epa.gov/sites/production/files/2016-12/documents/nc2016_303ddecisionpackage20161208_reduced.pdf"),
+                                              br(), br(),
+                                              a("Lin et al. 2000",
+                                                href="http://infohouse.p2ric.org/ref/41/40276.pdf")
+                                              )
                                     )
                         ),
                tabPanel("CharMeck Metals",
@@ -171,7 +177,8 @@ shinyUI(
                                                             selectInput(
                                                             inputId="analyte2",
                                                             label="Choose: ",
-                                                            unique(wqDF$Analyte))
+                                                            unique(wqDF$Analyte),
+                                                            selected="Lead")
                                                             ),
                                                      column(6,
                                                             selectInput(

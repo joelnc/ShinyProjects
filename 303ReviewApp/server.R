@@ -214,12 +214,12 @@ shinyServer(
                             list(fillcolor = "green",
                                 line = list(color = "white"),
                                 opacity = 0.3, type = "rect",
-                                x0 = "2010-01-01", x1 = "2017-02-01",
+                                x0=input$dates[1], x1=input$dates[2],
                                 xref = "x", y0 = -yMax, y1 = 0, yref = "y"),
                             list(fillcolor = "red",
                                 line = list(color = "white"),
                                 opacity = .20, type = "rect",
-                                x0 = "2010-01-01", x1 = "2017-02-01",
+                                x0=input$dates[1], x1=input$dates[2],
                                 xref = "x", y0 = 0, y1 = yMax, yref = "y")
                         ),
                         showlegend=TRUE
@@ -284,12 +284,12 @@ shinyServer(
                             list(fillcolor = "green",
                                 line = list(color = "white"),
                                 opacity = 0.3, type = "rect",
-                                x0 = "2010-01-01", x1 = "2017-02-01",
+                                x0=input$dates[1], x1=input$dates[2],
                                 xref = "x", y0 = -yMax, y1 = 0, yref = "y"),
                             list(fillcolor = "red",
                                 line = list(color = "white"),
                                 opacity = .20, type = "rect",
-                                x0 = "2010-01-01", x1 = "2017-02-01",
+                                x0=input$dates[1], x1=input$dates[2],
                                 xref = "x", y0 = 0, y1 = yMax, yref = "y")
                         )
                     )
