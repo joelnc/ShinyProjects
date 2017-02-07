@@ -25,10 +25,7 @@ ends <<- as.POSIXct(character())
 
 ## Start UI
 ui <- basicPage(
-    plotOutput("plot1",
-               brush=brushOpts(id="plot_brush",
-                               direction="x")
-               ),
+    plotlyOutput("plot1"),
     plotOutput("plot2",
                brush=brushOpts(id="plot_brush",
                                direction="x")
