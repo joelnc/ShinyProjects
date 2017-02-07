@@ -6,31 +6,47 @@ server <- function(input, output) {
         selRows = rep(TRUE, nrow(ppEff))
         )
 
-    output$plot1 <- renderPlot({ ## make this one plotly
+    output$plot1 <- renderPlotly({ ## make this one plotly
 
-        if (input$log==TRUE) {
-            plot(ppEff$dt, ppEff$cts, log="y",
-                 type="l")
-            par(new=TRUE)
-            plot(ppRain$dt, ppRain$rain15, col="blue",
-                 type="h", ylim=rev(range(ppRain$rain15,
-                                          na.rm=TRUE)))
-        } else {
-            plot(ppEff$dt, ppEff$cts, type="l")
-            par(new=TRUE)
-            plot(ppRain$dt, ppRain$rain15, col="blue",
-                 type="h", ylim=rev(range(ppRain$rain15,
-                                          na.rm=TRUE)))
+            plot_ly() %>%
+                add_trace(data=ppEff,
+                          x=~dt, y=~cts,
+                          type="scatter", mode="lines")
 
-        }
 
+            ## plot(ppEff$dt, ppEff$cts, log="y",
+            ##      type="l")
+            ## par(new=TRUE)
+            ## plot(ppRain$dt, ppRain$rain15, col="blue",
+            ##      type="h", ylim=rev(range(ppRain$rain15,
+            ##                               na.rm=TRUE)))
     })
-    output$plot2 <- renderPlot({
 
+    ## output$plot1 <- renderPlot({ ## make this one plotly
+
+    ##     if (input$log==TRUE) {
+    ##         plot(ppEff$dt, ppEff$cts, log="y",
+    ##              type="l")
+    ##         par(new=TRUE)
+    ##         plot(ppRain$dt, ppRain$rain15, col="blue",
+    ##              type="h", ylim=rev(range(ppRain$rain15,
+    ##                                       na.rm=TRUE)))
+    ##     } else {
+    ##         plot(ppEff$dt, ppEff$cts, type="l")
+    ##         par(new=TRUE)
+    ##         plot(ppRain$dt, ppRain$rain15, col="blue",
+    ##              type="h", ylim=rev(range(ppRain$rain15,
+    ##                                       na.rm=TRUE)))
+    ##     }
+    ## })
+
+
+    output$plot2 <- renderPlot({
+##browser()
         effData <- ppEff[which(ppEff$dt>min(ppEff$dt) &
                                ppEff$dt<(min(ppEff$dt)+(60*60*24*7))), ]
-        ppData <- ppRain[which(ppRain$dt>min(ppRain$dt) &
-                               ppRain$dt<(min(ppRain$dt)+(60*60*24*7))), ]
+        ppData <- ppRain[which(ppRain$dt>min(ppEff$dt) &
+                               ppRain$dt<(min(ppEff$dt)+(60*60*24*7))), ]
 
         if (input$log==TRUE) {
             plot(effData$dt, effData$cts, log="y",
