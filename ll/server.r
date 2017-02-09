@@ -42,7 +42,7 @@ server <- function(input, output) {
 
 
     output$plot2 <- renderPlot({
-##browser()
+browser()
         effData <- ppEff[which(ppEff$dt>min(ppEff$dt) &
                                ppEff$dt<(min(ppEff$dt)+(60*60*24*7))), ]
         ppData <- ppRain[which(ppRain$dt>min(ppEff$dt) &
@@ -84,18 +84,76 @@ server <- function(input, output) {
         )
     })
 
+    ## Click add data, update starts, ends, qs, rs
     observeEvent(input$addData, {
+
+        ## Starts ends
         starts <<- rbind(starts, input$plot_brush$xmin)
         ends <<- rbind(ends, input$plot_brush$xmax)
         print(starts)
+
+        ## Qs, rs
+        qTemp <- sum(ppEff$cts[which(ppEff$dt > input$plot_brush$xmin &
+                                     ppEff$dt < input$plot_brush$xmax)],
+                     na.rm=TRUE)
+        rTemp <- sum(ppRain$rain15[which(ppRain$dt > input$plot_brush$xmin &
+                                     ppRain$dt < input$plot_brush$xmax)],
+                     na.rm=TRUE)
+        qs <<- rbind(qs, qTemp[1])
+        rs <<- rbind(rs, rTemp[1])
+        print(qs)
+        print(rs)
     })
 
+    ## currentData <- reactive({
+    ##     qTemp <- sum(ppEff$cts[which(ppEff$dt > input$plot_brush$xmin &
+    ##                                  ppEff$dt < input$plot_brush$xmax)],
+    ##                  na.rm=TRUE)
+    ##     rTemp <- sum(ppRain$rain15[which(ppRain$dt > input$plot_brush$xmin &
+    ##                                  ppRain$dt < input$plot_brush$xmax)],
+    ##                  na.rm=TRUE)
+    ##     qs <<- rbind(qs, qTemp[1])
+    ##     rs <<- rbind(rs, rTemp[1])
+    ##     print(qs)
+    ##     print(rs)
+    ##     output$results
+
+    ## })
+
+    ## Click done button, write text files
     observeEvent(input$done, {
         write(starts, "starts.txt")
         write(ends, "ends.txt")
-
-
     })
+
+    observeEvent(input$makeScatter, {
+        ##output$results
+        ##browser()
+ ##       if(input$makeScatter==1) {
+            output$results <- renderPlot({ plot(rs, qs) })
+#        }
+    })
+
+  ## plot.dat <- reactiveValues(main=NULL)
+  ## plot.dat$main <- plot(rs, qs)
+
+  ## observe({
+  ##   print("render")
+  ##   if(length(qs>0)) {
+  ##       output$plot <- renderPlot({ plot.dat$main })
+  ##   } else {
+  ##       print("none")
+  ##   }
+  ## })
+
+    ## ## Results plot
+    output$results <- renderPlot({
+            plot(rs, qs)
+    })
+
+
+
+
 
 
 }

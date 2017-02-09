@@ -23,6 +23,9 @@ ppEff <<- ppEff
 starts <<- as.POSIXct(character())
 ends <<- as.POSIXct(character())
 
+qs <<- as.numeric(NULL)
+rs <<- as.numeric(NULL)
+
 ## Start UI
 ui <- basicPage(
     plotlyOutput("plot1"),
@@ -43,7 +46,10 @@ ui <- basicPage(
 
     actionButton("done", "Finished, Save"),
     p(starts),
-    p(ends)
+    p(ends),
+    actionButton("makeScatter", "Plot Results"),
+    plotOutput("results")
+
 )
 
 
