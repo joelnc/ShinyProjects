@@ -144,7 +144,8 @@ shinyUI(
                                                                     round=FALSE,
                                                                     animate=TRUE)
                                                         )
-                                                 ),
+                                             ),
+                                             textOutput("confText"),
                                              fluidRow(
                                                  column(9,
                                                         plotOutput("excPlot", height="500px")

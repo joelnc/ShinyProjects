@@ -390,6 +390,24 @@ shinyServer(
 
         })
 
+        output$confText <- renderText({
+            tDiffData <- returnDiffData(site=input$sitecode,
+                                        metal=input$analyte,
+                                        dates=input$dates)
+
+            binomData <- tDiffData[["aData"]]["Result.x"]-
+                    tDiffData[["aData"]]["aStan"]
+
+            useTest <- binom.test(x=sum(binomData[,1]>=0),
+                                   n=length(binomData[,1]),
+                                   p=input$cutoff,
+                                  alternative=input$radio, conf.level=input$conf)
+
+            paste0("Confidence interval is ",
+                  format(useTest$conf.int[1]*100, digits=3), "% to ",
+                  format(useTest$conf.int[2]*100, digits=3), "%.")
+        })
+
 
     }) ## Done
 
