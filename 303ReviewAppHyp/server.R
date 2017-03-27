@@ -15,7 +15,7 @@ shinyServer(
         data4 <- c(9,6,2,11,3,7,3,4,6,4,3,5,1)
         data5 <- c(9,6,2,4,3,7,3,4,6,4,3,5,1)
         data6 <- c(rep(c(4,3,7,1,5,4),3), 4,3,7,1,5)
-        data7 <- c(rep(c(4,3,7,1,5,4),3), 12, rep(c(4,3,7,1,5,4),3))
+        data7 <- c(rep(c(4,3,7,1,5,4),3), 12, 7,rep(c(4,3,7,1,5,4),3))
         data8 <- c(rep(c(4,3,7,1,5,4),3), 12,4,3,7,14, rep(c(4,3,7,1,5,4),5))
         dataList <- list(data1=data1, data2=data2, data3=data3, data4=data4,
                          data5=data5, data6=data6, data7=data7, data8=data8)

@@ -37,7 +37,7 @@ shinyUI(
                                             "1 exceedance out of 13"="data4",
                                             "0 exceedances out of 13"="data5",
                                             "0 exceedances out of 23"="data6",
-                                            "1 exceedance out of 37"="data7",
+                                            "1 exceedance out of 38"="data7",
                                             "2 exceedances out of 52"="data8"),
                                   selected="data1")
                           )
