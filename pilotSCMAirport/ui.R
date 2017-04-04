@@ -5,41 +5,46 @@ library(shiny)
 ## Load, format, subset, WQD File
 wqDF <- read.csv("LabReport.txt",
                  stringsAsFactors=FALSE, sep=",", header=TRUE)
-wqDF$Coldate <- as.POSIXct(wqDF$Coldate, format="%m/%d/%Y %H:%M:%S")
-wqDF$Date <- as.Date(wqDF$Coldate)  ## If needed
-wqDF <- wqDF[which(wqDF$Analyte %in%
-                   c("Total Phosphorus", "Fecal Coliform",
-                     "Total Suspended Solids",
-                     "Copper", "Lead", "Zinc", "Cadmium", "Chromium",
-                     "Beryllium", "Selenium", "Arscenic", "Silver")), ]
+sites <<- read.csv("sites.csv", sep=",", header=TRUE,
+                  stringsAsFactors=FALSE)
 
-wqDFInlet <<- wqDF[which(wqDF$Site %in%
-                   c("APFGI", "APSCI", "BRRGI", "BRUN1",
-                     "CGI", "CMCHUI", "CTBAYI", "CTCDSI",
-                     "CTCRYI", "CTDDI", "CTSTCI", "CYTW1I",
-                     "CYTW2I", "CYTW3I", "CYTW4I", "CYVORI",
-                     "EBWI", "EGWI", "FLIDU",
-                     "FS39I", "HMRGI", "IVEYI1", "LGVORI",
-                     "LGVSI", "LLRSCI", "LOWESBAY", "LOWESCRYI",
-                     "MHDDI", "MHPURE", "MPHSITI", "MPHSRGI")),]
-
-
-wqDF <<- wqDF[order(wqDF$Coldate), ]
+scmDF <- wqDF[which(wqDF$Site %in% sites$Site),]
+scmDF$Coldate <- as.POSIXct(scmDF$Coldate, format="%m/%d/%Y %H:%M:%S")
+scmDF$Date <- as.Date(scmDF$Coldate)  ## If needed
+scmDF <<- scmDF[order(scmDF$Coldate), ]
 
 ## Define UI for applicaiton that draws a hist
 shinyUI(
-    navbarPage(title="Exceedance Plots",
+    navbarPage(title="Pilot SCM",
                selected="Data",
                br(),
                fluidRow(
-                   h3("Percent Exceedance", align="center"),
+                   h3("Pilot SCM", align="center"),
                    wellPanel(
+                       fluidRow(
+                           column(6,
+                                  selectInput(
+                                      inputId="Alias",
+                                      label="SCM Alias: ",
+                                      choices=unique(sites$Alias),
+                                      multiple=FALSE,
+                                      selectize=TRUE,
+                                      selected="PPS")
+                                  ),
+                           column(6,
+                                  selectInput(
+                                      inputId="analyte",
+                                      label="Select Analyte: ",
+                                      unique(scmDF$Analyte),
+                                      selected="Total Suspended Solids")
+                                  )
+                       ),
                        fluidRow(
                            column(4,
                                   selectInput(
                                       inputId= "sitecode1",
                                       label="Select Site 1: ",
-                                      choices=unique(wqDF$Site),
+                                      choices=unique(scmDF$Site),
                                       multiple=FALSE,
                                       selectize=TRUE)
                                       #selected="MC22A")
@@ -48,24 +53,17 @@ shinyUI(
                                   selectInput(
                                       inputId= "sitecode2",
                                       label="Select Site 2: ",
-                                      choices=unique(wqDF$Site),
+                                      choices=unique(scmDF$Site),
                                       multiple=FALSE,
                                       selectize=TRUE)
                                       #selected="MC22A")
-                                  ),
-                           column(4,
-                                  selectInput(
-                                      inputId="analyte",
-                                      label="Select Analyte: ",
-                                      unique(wqDF$Analyte),
-                                      selected="Copper")
                                   )
                        ),
                        fluidRow(
                            column(8, align="center",
                                   dateRangeInput(inputId="dates",
                                                  label="Filter Dates: ",
-                                                 start="2010-01-01", end=Sys.Date(),
+                                                 start="2004-01-01", end=Sys.Date(),
                                                  min="1986-11-03", max=Sys.Date(),
                                                  startview="year", weekstart=0)
                                   ),
@@ -87,7 +85,7 @@ shinyUI(
                                         plotOutput("selHist")
                                         ),
                                tabPanel("Scatter",
-                                        plotOutput("dataScatter")
+                                        plotOutput("defScatter")
                                        )
                                )
                )
