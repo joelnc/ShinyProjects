@@ -1,0 +1,18 @@
+Practice,Sediment,TDS,TandDMetals,P,Nit,OG,Bacteria,Organics,TN,ThirdPartyLab,ThirdPartyField,IDB,RefJournal,VendorData
+Racks and Screen Devices,H,H,L,M,M,H,L,L,H,F,F,T,T,T
+Skimmers and Booms,L,L,M,M,H,H,M,H,H,T,T,F,T,F
+Initial Settling Basins,H,H,L,M,M,H,L,L,H,F,T,T,T,F
+Infiltration devices,L,L,M,M,H,H,M,H,H,F,T,F,T,F
+Hydrodynamic Devices,H,L,M,M,M,H,H,H,M,F,F,T,F,F
+Tanks and Vaults,L,L,M,M,H,H,M,H,H,T,T,F,T,T
+Oil-Water Separators,H,H,L,M,M,H,L,L,H,F,T,F,F,T
+Media Filters,L,L,M,M,H,H,M,H,H,T,F,T,T,T
+Biofilters/bioretention,H,L,M,M,M,H,H,H,M,F,T,F,T,F
+Sedimentation Basin,H,L,M,M,M,H,H,H,M,F,F,T,F,T
+Wet Ponds,H,H,L,M,M,H,L,L,H,T,T,F,T,F
+Constructed wetlands,L,L,M,M,H,H,M,H,H,T,F,T,T,F
+Permbeable Pavement,H,H,L,M,M,H,L,L,H,F,T,F,T,T
+Chemical Treatment,L,L,M,M,H,H,M,H,H,F,F,T,F,T
+Soils and Soil Amendments,H,L,M,M,M,H,H,H,M,F,T,F,F,F
+Vegetated Systems swales/strips,L,L,M,M,H,H,M,H,H,T,F,T,T,T
+Disinfection Systems,H,H,L,M,M,H,L,L,H,F,T,F,T,F
