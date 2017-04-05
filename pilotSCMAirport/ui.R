@@ -41,24 +41,10 @@ shinyUI(
                        ),
                        fluidRow(
                            column(4,
-                                  selectInput(
-                                      inputId= "sitecode1",
-                                      label="Select Site 1: ",
-                                      choices=unique(scmDF$Site),
-                                      ##choices=sites$Site[which(sites$Alias==input$Alias)],
-                                      multiple=FALSE,
-                                      selectize=TRUE)
-                                      #selected="MC22A")
+                                  uiOutput("selectSite1")
                                   ),
                            column(4,
-                                  selectInput(
-                                      inputId= "sitecode2",
-                                      label="Select Site 2: ",
-                                      choices=unique(scmDF$Site),
-                                      ##choices=sites$Site[which(sites$Alias==input$Alias)],
-                                      multiple=FALSE,
-                                      selectize=TRUE)
-                                      #selected="MC22A")
+                                  uiOutput("selectSite2")
                                   )
                        ),
                        fluidRow(
