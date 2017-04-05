@@ -22,7 +22,7 @@ shinyUI(
                    h3("Pilot SCM", align="center"),
                    wellPanel(
                        fluidRow(
-                           column(6,
+                           column(8,
                                   selectInput(
                                       inputId="Alias",
                                       label="SCM Alias: ",
@@ -30,13 +30,6 @@ shinyUI(
                                       multiple=FALSE,
                                       selectize=TRUE,
                                       selected="PPS")
-                                  ),
-                           column(6,
-                                  selectInput(
-                                      inputId="analyte",
-                                      label="Select Analyte: ",
-                                      unique(scmDF$Analyte),
-                                      selected="Total Suspended Solids")
                                   )
                        ),
                        fluidRow(
@@ -48,33 +41,41 @@ shinyUI(
                                   )
                        ),
                        fluidRow(
+                           column(8,
+                                  selectInput(
+                                      inputId="analyte",
+                                      label="Select Analyte: ",
+                                      unique(scmDF$Analyte),
+                                      selected="Total Suspended Solids")
+                                  )
+                       ),
+                       fluidRow(
                            column(8, align="center",
                                   dateRangeInput(inputId="dates",
                                                  label="Filter Dates: ",
                                                  start="2004-01-01", end=Sys.Date(),
                                                  min="1986-11-03", max=Sys.Date(),
                                                  startview="year", weekstart=0)
-                                  ),
-                           column(4,
-                                  sliderInput(inputId="nBins",
-                                              label="Number of Bins",
-                                              min=0, max=500,
-                                              value=20, step=10,
-                                              round=FALSE,
-                                              animate=FALSE)
                                   )
                        )
                    ),
                    tabsetPanel(type="tabs",
-                               tabPanel("TSS",
+                               tabPanel("Time Series",
                                         plotOutput("tssPlot")
                                        ),
                                tabPanel("Hist",
                                         plotOutput("selHist")
                                         ),
                                tabPanel("Scatter",
-                                        plotOutput("defScatter")
-                                       )
+                                        fluidRow(
+                                            column(4,
+                                                   plotOutput("defScatter")
+                                                   ),
+                                            column(8,
+                                                   DT::dataTableOutput("matchedSamples")
+                                                   )
+                                        )
+                                        )
                                )
                )
                )

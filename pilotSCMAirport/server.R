@@ -4,10 +4,6 @@ library(shiny)
 shinyServer(
     function(input, output) {
 
-#############################################################################
-######################### CharMeck Data Functions ###########################
-#############################################################################
-
         output$tssPlot <- renderPlot({
             ## pull out alias' site codes
             useSites <- unique(sites$Site[which(sites$Alias==input$Alias)])
@@ -33,17 +29,15 @@ shinyServer(
                     tssData <- scmDF[tssIndx, c("Coldate", "Result")]
                     points(tssData$Coldate, tssData$Result, pch=16,
                          col=i)
-                    ## lines(tssData$Coldate, tssData$Result, type="l",
-                    ##      col=i)
                 }
 
             }
             legend("topright", useSites, col=seq(1,length(useSites)),
-                   lty=1, lwd=1.5)
+                   pch=16, pt.cex=1.5, bty="n")
         })
 
         output$selectSite1 <- renderUI({
-            selectInput(inputId= "sitecode1",
+            selectInput(inputId="sitecode1",
                         label="Select Site 1: ",
                         choices=sites$Site[which(sites$Alias==input$Alias)],
                         multiple=FALSE,
@@ -51,7 +45,7 @@ shinyServer(
         })
 
         output$selectSite2 <- renderUI({
-            selectInput(inputId= "sitecode2",
+            selectInput(inputId="sitecode2",
                         label="Select Site 2: ",
                         choices=sites$Site[which(sites$Alias==input$Alias)],
                         multiple=FALSE,
@@ -59,50 +53,23 @@ shinyServer(
         })
 
         output$defScatter <- renderPlot({
-##            useSites <- unique(sites$Site[which(sites$Alias==input$Alias)])
-
-            set1 <- scmDF[which(scmDF$Analyte==input$analyte &
-                             scmDF$Site==output$selectSite1 &
-                             scmDF$Date > input$dates[1] &
-                             scmDF$Date < input$dates[2]),
-                          c("Date", "Result", "Site")]
-
-            set2 <- scmDF[which(scmDF$Analyte==input$analyte &
-                             scmDF$Site==outputselectSite2 &
-                             scmDF$Date > input$dates[1] &
-                             scmDF$Date < input$dates[2]),
-                          c("Date", "Result", "Site")]
-            mSet <- merge(set1, set2, by="Date")
-
+            mSet <- merge(scmDF[which(scmDF$Analyte==input$analyte &
+                                      scmDF$Site==input$sitecode1 &
+                                      scmDF$Date > input$dates[1] &
+                                      scmDF$Date < input$dates[2]),
+                                c("Date", "Result", "Site")],
+                          scmDF[which(scmDF$Analyte==input$analyte &
+                                      scmDF$Site==input$sitecode2 &
+                                      scmDF$Date > input$dates[1] &
+                                      scmDF$Date < input$dates[2]),
+                                c("Date", "Result", "Site")],
+                          by="Date")
+            par(pty="s")
             plot(mSet$Result.x, mSet$Result.y, pch=16,
                  xlim=c(0,max(mSet$Result.x, mSet$Result.y)),
                  ylim=c(0,max(mSet$Result.x, mSet$Result.y)),
                  xlab=mSet$Site.x[1], ylab=mSet$Site.y[1])
         })
-
-
-        ## output$defScatter <- renderPlot({
-        ##     useSites <- unique(sites$Site[which(sites$Alias==input$Alias)])
-
-        ##     set1 <- scmDF[which(scmDF$Analyte==input$analyte &
-        ##                      scmDF$Site==useSites[1] &
-        ##                      scmDF$Date > input$dates[1] &
-        ##                      scmDF$Date < input$dates[2]),
-        ##                   c("Date", "Result", "Site")]
-
-        ##     set2 <- scmDF[which(scmDF$Analyte==input$analyte &
-        ##                      scmDF$Site==useSites[2] &
-        ##                      scmDF$Date > input$dates[1] &
-        ##                      scmDF$Date < input$dates[2]),
-        ##                   c("Date", "Result", "Site")]
-        ##     mSet <- merge(set1, set2, by="Date")
-
-        ##     plot(mSet$Result.x, mSet$Result.y, pch=16,
-        ##          xlim=c(0,max(mSet$Result.x, mSet$Result.y)),
-        ##          ylim=c(0,max(mSet$Result.x, mSet$Result.y)),
-        ##          xlab=mSet$Site.x[1], ylab=mSet$Site.y[1])
-        ## })
-
 
         output$selHist <- renderPlot({
             histIndx <- which(scmDF$Analyte==input$analyte)
@@ -112,6 +79,24 @@ shinyServer(
                  breaks=input$nBins)
         })
 
+        ## Display the subset
+        output$matchedSamples <- DT::renderDataTable(
+            DT::datatable(
+                merge(scmDF[which(scmDF$Analyte==input$analyte &
+                                  scmDF$Site==input$sitecode1 &
+                                  scmDF$Date > input$dates[1] &
+                                  scmDF$Date < input$dates[2]),
+                            c("Date", "Result", "Site")],
+                      scmDF[which(scmDF$Analyte==input$analyte &
+                                  scmDF$Site==input$sitecode2 &
+                                  scmDF$Date > input$dates[1] &
+                                  scmDF$Date < input$dates[2]),
+                            c("Date", "Result", "Site")],
+                      by="Date"),
+                ##dataSubset(),
+                options(list(pageLength = 25))
+            )
+        )
 
 
     }) ## Done
