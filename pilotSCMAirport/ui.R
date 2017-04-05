@@ -12,6 +12,7 @@ scmDF <- wqDF[which(wqDF$Site %in% sites$Site),]
 scmDF$Coldate <- as.POSIXct(scmDF$Coldate, format="%m/%d/%Y %H:%M:%S")
 scmDF$Date <- as.Date(scmDF$Coldate)  ## If needed
 scmDF <<- scmDF[order(scmDF$Coldate), ]
+##cs <- unique( as.list(as.data.frame(t(sites[,c("Alias", "SiteTitle")]))))
 
 ## Define UI for applicaiton that draws a hist
 shinyUI(
@@ -26,10 +27,12 @@ shinyUI(
                                   selectInput(
                                       inputId="Alias",
                                       label="SCM Alias: ",
-                                      choices=unique(sites$Alias),
+                                      choices=
+                                          setNames(as.character(
+                                              sites$Alias), sites$SiteTitle),
                                       multiple=FALSE,
                                       selectize=TRUE,
-                                      selected="PPS")
+                                      selected="Providence Prep School")
                                   )
                        ),
                        fluidRow(
@@ -61,7 +64,7 @@ shinyUI(
                    ),
                    tabsetPanel(type="tabs",
                                tabPanel("Time Series",
-                                        plotOutput("tssPlot")
+                                        plotlyOutput("tsPlotly")
                                        ),
                                tabPanel("Hist",
                                         plotOutput("selHist")
@@ -75,6 +78,9 @@ shinyUI(
                                                    DT::dataTableOutput("matchedSamples")
                                                    )
                                         )
+                                        ),
+                               tabPanel("Analysis Plots",
+                                        plotOutput("analPlots")
                                         )
                                )
                )
