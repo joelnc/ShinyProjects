@@ -16,57 +16,39 @@ shinyUI(
                h2("**DRAFT/PROTOTYPE**", align="center"),
                h2("ITRC Stormwater BMP Applicability / Evaulation Tool"),
                fluidRow(
-                   h3("Select Criteria", align="center"),
-                   wellPanel(style="background-color: #D2DDE4",
-
-                       fluidRow(
-                           column(12,
-                                  selectInput(
-                                      inputId= "sitecode1",
-                                      label="Select Pollutant(s)*: ",
-                                      choices=names(itrcData[3:11]),
-                                      multiple=TRUE,
-                                      selectize=TRUE)
-                                  ),
-                           h5("*Not functional at present. Need to discuss binary vs categorical ratings.")
-                                  )
-                  )
-               ),
-               fluidRow(
-                   wellPanel(style="background-color: #D2DDE4;",
-                       fluidRow(
-                           includeCSS("styles.css"),
-                           h4("Does data need to meet these conditions? (Select...)"),
-                           h5("(*If none selected, all practices will be shown)"),
-                           column(4,
-                              checkboxInput(inputId="TPL",
-                                            label="3rd Party Lab?",
-                                            value=FALSE)
-                              ),
-                           column(4,
-                              checkboxInput(inputId="TPF",
-                                            label="3rd Party Field",
-                                            value=FALSE)
-                              ),
-                           column(4,
-                                  checkboxInput(inputId="IDB",
-                                            label="Int. DB? ",
-                                            value=FALSE)
-                                  )
-                       ),
-                       fluidRow(
-                           column(4,
-                              checkboxInput(inputId="refJ",
-                                            label="Ref. Journ?",
-                                            value=FALSE)
-                              ),
-                       column(4,
-                              checkboxInput(inputId="Vend",
-                                            label="Vendor Data?",
-                                            value=FALSE)
-                              )
-                       )
-                   )
+                   column(6,
+                          h3("Select Criteria", align="center"),
+                          wellPanel(style="background-color: #D2DDE4",
+                                    selectInput(
+                                    inputId="pollutants",
+                                    label="Select Pollutant(s)*: ",
+                                    choices=names(itrcData[3:11]),
+                                    multiple=TRUE,
+                                    selectize=TRUE)
+                                    )
+                          ),
+                   column(6,
+                          wellPanel(style="background-color: #D2DDE4;",
+                                    includeCSS("styles.css"),
+                                    h4("Does data need to meet these conditions? (Select...)"),
+                                    h5("(*If none selected, all practices will be shown)"),
+                                    checkboxInput(inputId="TPL",
+                                                  label="3rd Party Lab?",
+                                                  value=FALSE),
+                                    checkboxInput(inputId="TPF",
+                                                  label="3rd Party Field",
+                                                  value=FALSE),
+                                    checkboxInput(inputId="IDB",
+                                                  label="Int. DB? ",
+                                                  value=FALSE),
+                                    checkboxInput(inputId="refJ",
+                                                  label="Ref. Journ?",
+                                                  value=FALSE),
+                                    checkboxInput(inputId="Vend",
+                                                  label="Vendor Data?",
+                                                  value=FALSE)
+                                    )
+                          )
                ),
                tabsetPanel(type="tabs",
                            tabPanel("Pot. Applicable",

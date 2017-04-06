@@ -77,52 +77,5 @@ shinyServer(
                                )
 
 
-        output$results <- DT::renderDataTable(DT::datatable({
-            data <- itrcData
-
-            ##browser()
-            if (input$TPL==TRUE) {
-                holder[12] <- TRUE
-            } else {
-                holder[12] <- FALSE
-            }
-
-            if (input$TPF==TRUE) {
-                holder[13] <- TRUE
-            } else {
-                holder[13] <- FALSE
-            }
-            if (input$IDB==TRUE) {
-                holder[14] <- TRUE
-            } else {
-                holder[14] <- FALSE
-            }
-
-            if (input$refJ==TRUE) {
-                holder[15] <- TRUE
-            } else {
-                holder[15] <- FALSE
-            }
-            if (input$Vend==TRUE) {
-                holder[16] <- TRUE
-            } else {
-                holder[16] <- FALSE
-            }
-##browser()
-            ## Just need to get his index working....
-            ##data2 <- data[which(holder==TRUE)=="TRUE", ]
-
-
-            ## if (input$refJ==TRUE) {
-            ##     data <- data
-            ## } else {
-            ##     data <- data[which(data$RefJournal=="T"), ]
-            ## }
-
-            data
-
-        })
-        )
-
     }) ## Done
 
