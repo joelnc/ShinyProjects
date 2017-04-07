@@ -3,10 +3,15 @@ library(shiny)
 #source("metalsThresFuns.r")
 
 ## Load, format, subset, WQD File
-itrcData <- read.csv("toolExData.csv", stringsAsFactors=FALSE,
+itrcDataFull <- read.csv("toolExData.csv", stringsAsFactors=FALSE,
                      sep=",", header=TRUE, check.names=FALSE)
+itrcData <<- itrcDataFull[,c(1,2,5,8,11,12,13,14,15,16)]
+#itrcData$link <<- paste0("<a href=", itrcData$doc, " target='blank' >MyFiles</a>")
+itrcData$Practice <<- paste0("<a href=", itrcData$doc, " target='blank' >",
+                         itrcData$Practice,"</a>")
+itrcData <<- subset(itrcData, select=-c(doc))
 
-itrcData <<- itrcData[,c(1,2,5,8,11,12,13,14,15)]
+print(names(itrcData))
 
 ## Define UI for applicaiton that draws a hist
 shinyUI(
@@ -21,8 +26,8 @@ shinyUI(
                           wellPanel(style="background-color: #D2DDE4",
                                     selectInput(
                                     inputId="pollutants",
-                                    label="Select Pollutant(s)*: ",
-                                    choices=names(itrcData[3:11]),
+                                    label="Select Pollutant(s): ",
+                                    choices=names(itrcData[2:4]),
                                     multiple=TRUE,
                                     selectize=TRUE)
                                     )

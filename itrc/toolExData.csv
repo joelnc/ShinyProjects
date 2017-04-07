@@ -1,18 +1,18 @@
-Practice,Sediment,TDS,TandDMetals,P,Nit,OG,Bacteria,Organics,TN,ThirdPartyLab,ThirdPartyField,IDB,RefJournal,VendorData
-Racks and Screen Devices,H,H,L,M,M,H,X,L,H,F,F,T,T,T
-Skimmers and Booms,L,L,M,M,H,H,X,H,H,T,T,F,T,F
-Initial Settling Basins,H,H,L,M,M,H,X,L,H,F,T,T,T,F
-Infiltration devices,L,L,M,M,H,H,M,H,H,F,T,F,T,F
-Hydrodynamic Devices,X,L,M,M,M,H,H,H,M,F,F,T,F,F
-Tanks and Vaults,X,L,M,M,H,H,M,H,H,T,T,F,T,T
-Oil-Water Separators,H,H,L,M,M,H,L,L,H,F,T,F,F,T
-Media Filters,L,L,M,M,H,H,M,H,H,T,F,T,T,T
-Biofilters/bioretention,H,L,M,M,M,H,H,H,M,F,T,F,T,F
-Sedimentation Basin,H,L,M,M,M,H,H,H,M,F,F,T,F,T
-Wet Ponds,H,H,L,M,M,H,L,L,H,T,T,F,T,F
-Constructed wetlands,L,L,M,M,H,H,M,H,H,T,F,T,T,F
-Permbeable Pavement,X,H,L,M,M,H,L,L,H,F,T,F,T,T
-Chemical Treatment,L,L,M,M,H,H,M,H,H,F,F,T,F,T
-Soils and Soil Amendments,H,L,M,M,M,H,H,H,M,F,T,F,F,F
-Vegetated Systems swales/strips,L,L,M,M,H,H,M,H,H,T,F,T,T,T
-Disinfection Systems,H,H,L,M,M,H,L,L,H,F,T,F,T,F
+Practice,Sediment,TDS,TandDMetals,P,Nit,OG,Bacteria,Organics,TN,ThirdPartyLab,ThirdPartyField,IDB,RefJournal,VendorData,doc
+Racks and Screen Devices,H,H,L,M,M,H,X,L,H,F,F,T,T,T,"""InfoSheet.pdf"""
+Skimmers and Booms,L,L,M,M,H,H,X,H,H,T,T,F,T,F,"""InfoSheet.pdf"""
+Initial Settling Basins,H,H,L,M,M,H,X,L,H,F,T,T,T,F,"""InfoSheet.pdf"""
+Infiltration devices,L,L,M,M,H,H,M,H,H,F,T,F,T,F,"""InfoSheet.pdf"""
+Hydrodynamic Devices,X,L,M,M,M,H,H,H,M,F,F,T,F,F,"""InfoSheet.pdf"""
+Tanks and Vaults,X,L,M,M,H,H,M,H,H,T,T,F,T,T,"""InfoSheet.pdf"""
+Oil-Water Separators,H,H,L,M,M,H,L,L,H,F,T,F,F,T,"""InfoSheet.pdf"""
+Media Filters,L,L,M,M,H,H,M,H,H,T,F,T,T,T,"""InfoSheet.pdf"""
+Biofilters/bioretention,H,L,M,M,M,H,H,H,M,F,T,F,T,F,"""InfoSheet.pdf"""
+Sedimentation Basin,H,L,M,M,M,H,H,H,M,F,F,T,F,T,"""InfoSheet.pdf"""
+Wet Ponds,H,H,L,M,M,H,L,L,H,T,T,F,T,F,"""InfoSheet.pdf"""
+Constructed wetlands,L,L,M,M,H,H,M,H,H,T,F,T,T,F,"""InfoSheet.pdf"""
+Permbeable Pavement,X,H,L,M,M,H,L,L,H,F,T,F,T,T,"""InfoSheet.pdf"""
+Chemical Treatment,L,L,M,M,H,H,M,H,H,F,F,T,F,T,"""InfoSheet.pdf"""
+Soils and Soil Amendments,H,L,M,M,M,H,H,H,M,F,T,F,F,F,"""InfoSheet.pdf"""
+Vegetated Systems swales/strips,L,L,M,M,H,H,M,H,H,T,F,T,T,T,"""InfoSheet.pdf"""
+Disinfection Systems,H,H,L,M,M,H,L,L,H,F,T,F,T,F,"""InfoSheet.pdf"""
